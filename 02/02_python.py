@@ -14,12 +14,17 @@ def draw_figure(length, number, move, turn):
       angle=((int(number)-2)*180)/int(number)
       draw_angle=180-int(angle)
       print(draw_angle)
-      x=turtle.Turtle()
+
       x.right(int(turn))
       for i in range(1,int(number)+1):
             x.forward(int(length))
             x.right(int(draw_angle))
-      input("Press Enter to continue...")
+
+
+def move_start_point(move):
+      x.up()
+      x.forward(int(move))
+      x.down()
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], 't:m:r:n:h', ['turn=','move=', 'length=', 'number', 'help'])
@@ -31,6 +36,9 @@ var_n=4
 var_length=50
 var_move=0
 var_turn=0
+
+
+x=turtle.Turtle()
 
 for opt, arg in opts:
     if opt in ('-h', '--help'):
@@ -47,11 +55,14 @@ for opt, arg in opts:
         var_turn=arg
         
     elif opt in ('-m', '--move'):
-        print('p')
+        var_move=arg
         
     else:
         
         print_help()
         sys.exit(2)
-
+move_start_point(var_move)
 draw_figure(var_length, var_n, var_move, var_turn)
+#x.circle(50)
+
+input("Press Enter to continue...")
