@@ -1,3 +1,5 @@
+#algorytm euklidesa
+
 a=eval(input("Set first number: "))
 while not isinstance(a,int):
     print("Set number only!")
