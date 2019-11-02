@@ -31,7 +31,7 @@ def rysuj(kw):
             else:
                 rysuj_rozgwiazde(i,j,kw[i][j]["ilosc_ramion"])
       
-def koparka(kw,x,y):
+def koparka(kw,x,y,*arg):
     #for i in range(len(arg)):
         #new = kw[x][y]
         if kw[x][y]==None:
@@ -41,9 +41,18 @@ def koparka(kw,x,y):
             print("Przecież przed chwilą tu kopałeś!...")
         else:
             print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
+
+        for i in range(0,len(arg),2):
+            
+            if kw[arg[i]][arg[i+1]]==None:
+                kw[arg[i]][arg[i+1]]={}
+            elif kw[arg[i]][arg[i+1]]=={}:
+                print("Przecież przed chwilą tu kopałeś!...")
+            else:
+                print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
         return kw
 
-def zakop(kw,x,y,r):
+def zakop(kw,x,y,r,*arg):
     if kw[x][y]==None:
         print("Wykop najpierw dołek!")
         return None
@@ -52,6 +61,16 @@ def zakop(kw,x,y,r):
     else:
         kw[x][y]={"ilosc_ramion":r}
         kw[x][y].update()
+
+    for i in range(0,len(arg),3):
+        if kw[arg[i]][arg[i+1]]==None:
+            print("Wykop najpierw dołek!")
+            return None
+        elif kw[arg[i]][arg[i+1]]!={}:
+            print("Tu już jest zakopana rozgwiazda...")
+        else:
+            kw[arg[i]][arg[i+1]]={"ilosc_ramion":arg[i+2]}
+            kw[arg[i]][arg[i+1]].update()
    
 def rysuj_obwod(x,y):
     turtus=turtle.Turtle()
@@ -295,4 +314,7 @@ def rysuj_czaszke(xx,yy):
     x.lt(110)
     x.fd(SKALA*10)
     x.hideturtle()
+
+
+#Copyright by mglodziak.
 
