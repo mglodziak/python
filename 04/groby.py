@@ -1,0 +1,298 @@
+import turtle
+import sys
+
+ALEJKA=10 #szerokosc alejki
+BOK=65 #dlugosc boku kwatery
+RAMIE=0.4*BOK
+
+SKALA=0.2 #do czaszki
+PEN_SIZE=1 #do czaszki
+
+def kwartal (n,m):
+    kw=[]
+    for i in range(n):
+        x=[]
+        for j in range(m):
+            x.append(None)
+        kw.append(x)
+    return kw
+
+def rysuj(kw):
+    x=len(kw)
+    y=len(kw[0])
+    rysuj_obwod(x,y)
+    rysuj_kwatery(x,y)
+    for i in range(len(kw)):
+        for j in range(len(kw[i])):
+            if kw[i][j]==None:
+                continue
+            elif kw[i][j]=={}:
+                rysuj_czaszke(i,j)
+            else:
+                rysuj_rozgwiazde(i,j,kw[i][j]["ilosc_ramion"])
+      
+def koparka(kw,x,y):
+    #for i in range(len(arg)):
+        #new = kw[x][y]
+        if kw[x][y]==None:
+            #continue
+            kw[x][y]={}
+        elif kw[x][y]=={}:
+            print("Przecież przed chwilą tu kopałeś!...")
+        else:
+            print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
+        return kw
+
+def zakop(kw,x,y,r):
+    if kw[x][y]==None:
+        print("Wykop najpierw dołek!")
+        return None
+    elif kw[x][y]!={}:
+        print("Tu już jest zakopana rozgwiazda...")
+    else:
+        kw[x][y]={"ilosc_ramion":r}
+        kw[x][y].update()
+   
+def rysuj_obwod(x,y):
+    turtus=turtle.Turtle()
+    turtus.up()
+    turtus.goto(-400,400)
+    turtus.down()
+    for i in range(2):
+        turtus.pensize(3)
+        turtus.fd((BOK+ALEJKA)*y+ALEJKA)
+        turtus.rt(90)
+        turtus.fd((BOK+ALEJKA)*x+ALEJKA)
+        turtus.rt(90)
+        turtus.pensize(1)
+    turtus.hideturtle()
+
+def rysuj_kwatery(x,y):
+    turtus=turtle.Turtle()
+    turtus.up()
+    turtus.goto(-400,400)
+    turtus.down()
+    for i in range(y):
+        turtus.fd(ALEJKA)
+        turtus.rt(90)
+        turtus.up()
+        turtus.fd(ALEJKA)
+        turtus.down()
+        for i in range(x):
+            turtus.fd(BOK)
+            turtus.up()
+            turtus.fd(ALEJKA)
+            turtus.down()
+            
+        turtus.lt(90)
+        turtus.fd(BOK)
+        turtus.lt(90)
+        turtus.up()
+        turtus.fd(ALEJKA)
+        turtus.down()
+        for i in range(x):
+            turtus.fd(BOK)
+            turtus.up()
+            turtus.fd(ALEJKA)
+            turtus.down()
+              
+        turtus.rt(90)
+    turtus.hideturtle()
+    
+    turtus=turtle.Turtle()
+    turtus.up()
+    turtus.goto(-400,400)
+    turtus.down()
+
+    for i in range(x):
+        turtus.rt(90)
+        turtus.up()
+        turtus.fd(ALEJKA)
+        turtus.lt(90)
+        turtus.fd(ALEJKA)
+        turtus.down()
+        for i in range(y):
+            turtus.fd(BOK)
+            turtus.up()
+            turtus.fd(ALEJKA)
+            turtus.down()
+
+        turtus.rt(90)
+        turtus.fd(BOK)
+        turtus.rt(90)
+        turtus.up()
+        turtus.fd(ALEJKA)
+        turtus.down()
+        for i in range(y):
+            turtus.fd(BOK)
+            turtus.up()
+            turtus.fd(ALEJKA)
+            turtus.down()
+        turtus.rt(180)
+    turtus.hideturtle()
+
+def rysuj_rozgwiazde(x,y,r):
+    new_x=-400+(BOK+ALEJKA)*y+ALEJKA+(BOK//2)
+    new_y=400-(BOK+ALEJKA)*x-ALEJKA-(BOK//2)
+    turtus=turtle.Turtle()
+    turtus.up()
+    turtus.goto(new_x,new_y)
+    turtus.down()
+    angle=360//r
+    for i in range(r):
+        turtus.fd(RAMIE)
+        turtus.backward(RAMIE)
+        turtus.rt(angle)
+    turtus.hideturtle()
+
+def rysuj_czaszke(xx,yy):
+    t=turtle.Turtle()
+    t.pensize(PEN_SIZE)
+    t.up()
+    t.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy,400-(ALEJKA*1.5)-(ALEJKA+BOK)*xx)
+    t.down()
+    t.circle(-SKALA*200,20)
+    t.circle(-SKALA*60,85)
+    t.fd(SKALA*30)
+    t.circle(-SKALA*10,20)
+    t.fd(SKALA*10)
+    t.circle(-SKALA*10,20)
+    t.fd(SKALA*10)
+    t.circle(SKALA*2,90)
+    t.fd(SKALA*25)
+    t.circle(-SKALA*20,150)
+    t.circle(SKALA*15,110)
+    t.fd(SKALA*30)
+    t.bk(SKALA*10)
+    t.rt(80)
+    for i in range(3):
+        t.fd(SKALA*15)
+        t.rt(95)
+        t.fd(SKALA*12)
+        t.bk(SKALA*20)
+        t.fd(SKALA*8)
+        t.lt(95)
+    t.hideturtle()
+    
+    x=turtle.Turtle()
+    x.pensize(PEN_SIZE)
+    x.up()
+    x.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy,400-(ALEJKA*1.5)-(ALEJKA+BOK)*xx)
+    x.down()
+    x.rt(180)
+    x.circle(SKALA*200,20)
+    x.circle(SKALA*60,85)
+    x.fd(SKALA*30)
+    x.circle(SKALA*10,20)
+    x.fd(SKALA*10)
+    x.circle(SKALA*10,20)
+    x.fd(SKALA*10)
+    x.circle(SKALA*-2,90)
+    x.fd(SKALA*25)
+    x.circle(SKALA*20,150)
+    x.circle(SKALA*-15,110)
+    x.fd(SKALA*30)
+    x.bk(SKALA*10)
+    x.lt(80)
+    for i in range(3):
+        x.fd(SKALA*15)
+        x.lt(95)
+        x.fd(SKALA*12)
+        x.bk(SKALA*20)
+        x.fd(SKALA*8)
+        x.rt(95)
+    x.hideturtle()
+
+    t=turtle.Turtle()
+    t.pensize(PEN_SIZE)
+    t.up()
+    t.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy,400-(ALEJKA*1.5)-(ALEJKA+BOK)*xx)
+    t.down()
+    t.circle(SKALA*-200,20)
+    t.circle(SKALA*-60,85)
+    t.fd(SKALA*30)
+    t.circle(SKALA*-10,20)
+    t.fd(SKALA*10)
+    t.circle(SKALA*-10,20)
+    t.fd(SKALA*10)
+    t.circle(SKALA*2,90)
+    t.fd(SKALA*25)
+    t.circle(SKALA*-20,130)
+    t.lt(80)
+    t.fd(SKALA*70)
+    t.circle(SKALA*-10,60)
+    t.fd(SKALA*50)
+    t.hideturtle()
+    
+    x=turtle.Turtle()
+    x.pensize(PEN_SIZE)
+    x.up()
+    x.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy,400-(ALEJKA*1.5)-(ALEJKA+BOK)*xx)
+    x.down()
+    x.rt(180)
+    x.circle(SKALA*200,20)
+    x.circle(SKALA*60,85)
+    x.fd(SKALA*30)
+    x.circle(SKALA*10,20)
+    x.fd(SKALA*10)
+    x.circle(SKALA*10,20)
+    x.fd(SKALA*10)
+    x.circle(SKALA*-2,90)
+    x.fd(SKALA*25)
+    x.circle(SKALA*20,130)
+    x.rt(80)
+    x.fd(SKALA*70)
+    x.circle(SKALA*10,60)
+    x.fd(SKALA*50)
+    x.hideturtle()
+
+    t=turtle.Turtle()
+    t.pensize(PEN_SIZE)
+    t.up()
+    t.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy+SKALA*20,400-(ALEJKA*1.5)-(ALEJKA+BOK)*xx-SKALA*80)
+    t.down()
+    t.lt(70)
+    t.circle(SKALA*-25,150)
+    t.circle(SKALA*-25,-150)
+    t.rt(140)
+    t.circle(SKALA*25,150)
+    t.hideturtle()
+    
+    x=turtle.Turtle()
+    x.pensize(PEN_SIZE)
+    x.up()
+    x.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy+SKALA*-20,400-(ALEJKA*1.5)-(ALEJKA+BOK)*xx-SKALA*80)
+    x.down()
+    x.lt(110)
+    x.circle(SKALA*25,150)
+    x.circle(SKALA*25,-150)
+    x.lt(140)
+    x.circle(SKALA*-25,150)
+    x.hideturtle()
+
+    x=turtle.Turtle()
+    x.pensize(PEN_SIZE)
+    x.up()
+    x.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy,400-(ALEJKA+BOK//2)-(ALEJKA+BOK)*xx)
+    x.down()
+    x.rt(60)
+    x.fd(SKALA*30)
+    x.rt(70)
+    x.fd(SKALA*15)
+    x.rt(110)
+    x.fd(SKALA*10)
+    x.hideturtle()
+
+    x=turtle.Turtle()
+    x.pensize(PEN_SIZE)
+    x.up()
+    x.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy,400-(ALEJKA+BOK//2)-(ALEJKA+BOK)*xx)
+    x.down()
+    x.lt(240)
+    x.fd(SKALA*30)
+    x.lt(70)
+    x.fd(SKALA*15)
+    x.lt(110)
+    x.fd(SKALA*10)
+    x.hideturtle()
+
