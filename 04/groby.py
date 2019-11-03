@@ -28,38 +28,39 @@ def rysuj(kw):
                 continue
             elif kw[i][j]=={}:
                 rysuj_czaszke(i,j)
-            else:
+            elif kw[i][j]["typ"]=='r':
                 rysuj_rozgwiazde(i,j,kw[i][j]["ilosc_ramion"])
+            elif kw[i][j]["typ"]=='s':
+                rysuj_slimaka(i,j,kw[i][j]["srednica"],kw[i][j]["ilosc_zwojow"])
+            else:
+                print("ERROR klasy id -> Idiot Developer")
+                exit()
       
 def koparka(kw,x,y,*arg):
-    #for i in range(len(arg)):
-        #new = kw[x][y]
-        if kw[x][y]==None:
-            #continue
-            kw[x][y]={}
-        elif kw[x][y]=={}:
-            print("Przecież przed chwilą tu kopałeś!...")
+    if kw[x][y]==None:
+        kw[x][y]={}
+    elif kw[x][y]=={}:
+        print("Przecież przed chwilą tu kopałeś!...")
+    else:
+        print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
+
+    for i in range(0,len(arg),2):
+        if kw[arg[i]][arg[i+1]]==None:
+            kw[arg[i]][arg[i+1]]={}
+        elif kw[arg[i]][arg[i+1]]=={}:
+           print("Przecież przed chwilą tu kopałeś!...")
         else:
-            print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
+           print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
+    return kw
 
-        for i in range(0,len(arg),2):
-            
-            if kw[arg[i]][arg[i+1]]==None:
-                kw[arg[i]][arg[i+1]]={}
-            elif kw[arg[i]][arg[i+1]]=={}:
-                print("Przecież przed chwilą tu kopałeś!...")
-            else:
-                print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
-        return kw
-
-def zakop(kw,x,y,r,*arg):
+def zakop_rozgwiazde(kw,x,y,r,*arg):
     if kw[x][y]==None:
         print("Wykop najpierw dołek!")
         return None
     elif kw[x][y]!={}:
-        print("Tu już jest zakopana rozgwiazda...")
+        print("Tu już jest coś zakopane!!...")
     else:
-        kw[x][y]={"ilosc_ramion":r}
+        kw[x][y]={"ilosc_ramion":r,"typ":'r'}
         kw[x][y].update()
 
     for i in range(0,len(arg),3):
@@ -67,9 +68,29 @@ def zakop(kw,x,y,r,*arg):
             print("Wykop najpierw dołek!")
             return None
         elif kw[arg[i]][arg[i+1]]!={}:
-            print("Tu już jest zakopana rozgwiazda...")
+            print("Tu już jest coś zakopane!!...")
         else:
-            kw[arg[i]][arg[i+1]]={"ilosc_ramion":arg[i+2]}
+            kw[arg[i]][arg[i+1]]={"ilosc_ramion":arg[i+2],"typ":'r'}
+            kw[arg[i]][arg[i+1]].update()
+
+def zakop_slimaka(kw,x,y,fi,zwoje,*arg):
+    if kw[x][y]==None:
+        print("Wykop najpierw dołek!")
+        return None
+    elif kw[x][y]!={}:
+        print("Tu już jest coś zakopane!!...")
+    else:
+        kw[x][y]={"srednica":fi,"ilosc_zwojow":zwoje,"typ":'s'}
+        kw[x][y].update()
+
+    for i in range(0,len(arg),4):
+        if kw[arg[i]][arg[i+1]]==None:
+            print("Wykop najpierw dołek!")
+            return None
+        elif kw[arg[i]][arg[i+1]]!={}:
+            print("Tu już jest coś zakopane!!...")
+        else:
+            kw[arg[i]][arg[i+1]]={"srednica":arg[i+2],"ilosc_zwojow":arg[i+3],"typ":'s'}
             kw[arg[i]][arg[i+1]].update()
    
 def rysuj_obwod(x,y):
@@ -77,13 +98,17 @@ def rysuj_obwod(x,y):
     turtus.up()
     turtus.goto(-400,400)
     turtus.down()
-    for i in range(2):
-        turtus.pensize(3)
-        turtus.fd((BOK+ALEJKA)*y+ALEJKA)
-        turtus.rt(90)
-        turtus.fd((BOK+ALEJKA)*x+ALEJKA)
-        turtus.rt(90)
-        turtus.pensize(1)
+    turtus.pensize(2)
+    turtus.fd((BOK+ALEJKA)*y+ALEJKA)
+    turtus.rt(90)
+    turtus.pensize(4)
+    turtus.fd((BOK+ALEJKA)*x+ALEJKA)
+    turtus.rt(90)
+    turtus.fd((BOK+ALEJKA)*y+ALEJKA)
+    turtus.rt(90)
+    turtus.pensize(2)
+    turtus.fd((BOK+ALEJKA)*x+ALEJKA)
+    turtus.rt(90)
     turtus.hideturtle()
 
 def rysuj_kwatery(x,y):
@@ -109,12 +134,13 @@ def rysuj_kwatery(x,y):
         turtus.up()
         turtus.fd(ALEJKA)
         turtus.down()
+        turtus.pensize(2)
         for i in range(x):
             turtus.fd(BOK)
             turtus.up()
             turtus.fd(ALEJKA)
             turtus.down()
-              
+        turtus.pensize(1)      
         turtus.rt(90)
     turtus.hideturtle()
     
@@ -142,11 +168,13 @@ def rysuj_kwatery(x,y):
         turtus.up()
         turtus.fd(ALEJKA)
         turtus.down()
+        turtus.pensize(2)
         for i in range(y):
             turtus.fd(BOK)
             turtus.up()
             turtus.fd(ALEJKA)
             turtus.down()
+        turtus.pensize(1)
         turtus.rt(180)
     turtus.hideturtle()
 
@@ -313,6 +341,43 @@ def rysuj_czaszke(xx,yy):
     x.fd(SKALA*15)
     x.lt(110)
     x.fd(SKALA*10)
+    x.hideturtle()
+
+   
+def rysuj_slimaka(xx,yy,srednica, pi_kat):
+
+    ilosc_krokow=pi_kat*2
+    x=turtle.Turtle()
+    x.up()
+    x.goto(-400+ALEJKA+BOK//2+(ALEJKA+BOK)*yy,400-(ALEJKA+BOK//2)-(ALEJKA+BOK)*xx)
+    x.down()
+    x1=1
+    x2=1
+    fibo=[1,1]
+
+    for i in range(ilosc_krokow):
+        x3=(x1+x2)*0.7
+        fibo.append(x3)
+        x1=x2
+        x2=x3
+
+    t=len(fibo)
+    t1=fibo[t-1]
+    t2=fibo[t-2]
+    t=t1+t2
+    print(t)
+
+    xxx=float(srednica)/float(t)
+    print(xxx)
+    
+    print(fibo)
+    for i in range(len(fibo)):
+        fibo[i]=fibo[i]*xxx*2
+    print(fibo)
+      
+    nr_squares=len(fibo)
+    for i in range(nr_squares):
+        x.circle(-0.5*fibo[i],90)
     x.hideturtle()
 
 
