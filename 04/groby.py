@@ -92,6 +92,61 @@ def zakop_slimaka(kw,x,y,fi,zwoje,*arg):
         else:
             kw[arg[i]][arg[i+1]]={"srednica":arg[i+2],"ilosc_zwojow":arg[i+3],"typ":'s'}
             kw[arg[i]][arg[i+1]].update()
+
+def statystyki(kw,*arg):
+    x=len(kw)
+    y=len(kw[0])
+    wszystkie=x*y
+    wolne=0
+    rozgwiazdy=0
+    slimaki=0
+    wykopane_puste=0
+    
+    for i in range(len(kw)):
+        for j in range(len(kw[i])):
+            if kw[i][j]==None:
+                wolne=wolne+1
+            elif kw[i][j]=={}:
+                wykopane_puste=wykopane_puste+1
+                wolne=wolne+1
+            elif kw[i][j]["typ"]=='r':
+                rozgwiazdy=rozgwiazdy+1
+            elif kw[i][j]["typ"]=='s':
+                slimaki=slimaki+1
+            else:
+                print("ERROR klasy id -> Idiot Developer")
+                exit()
+    kw_stats={"Wszystkie miejsca":wszystkie, "Wolne": wolne, "Wolne już wykopane": wykopane_puste,"zakopane rozgwiazdy":rozgwiazdy, "zakopane ślimaki":slimaki}
+    print(kw_stats)
+
+    for kwt in range(len(arg)):
+        x=len(arg[kwt])
+        y=len(arg[kwt][0])
+        wszystkie=x*y
+        wolne=0
+        rozgwiazdy=0
+        slimaki=0
+        wykopane_puste=0
+    
+        for i in range(len(arg[kwt])):
+            for j in range(len(arg[kwt][i])):
+                if arg[kwt][i][j]==None:
+                    wolne=wolne+1
+                elif arg[kwt][i][j]=={}:
+                    wykopane_puste=wykopane_puste+1
+                    wolne=wolne+1
+                elif arg[kwt][i][j]["typ"]=='r':
+                    rozgwiazdy=rozgwiazdy+1
+                elif arg[kwt][i][j]["typ"]=='s':
+                    slimaki=slimaki+1
+                else:
+                    print("ERROR klasy id -> Idiot Developer")
+                    exit()
+
+        stats={"Wszystkie miejsca":wszystkie, "Wolne": wolne, "Wolne już wykopane": wykopane_puste,"zakopane rozgwiazdy":rozgwiazdy, "zakopane ślimaki":slimaki}
+        print()
+        print(stats)
+
    
 def rysuj_obwod(x,y):
     turtus=turtle.Turtle()
