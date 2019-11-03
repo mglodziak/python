@@ -1,0 +1,49 @@
+Lab. 5 (22.10.2019)
+Informatyzacja smentarza dla zwierząt, sekcja akwarystyczna.
+Kroki:
+1. Reprezentacja kwartału na pochówki.
+Kwartał zawiera miejsca na kwatery ułożone regularnie: w rzędy i kolumny. Będzie reprezentowany
+za pomocą listy, której elementami są listy, których elementy reprezentują kwatery. Miejsce na kwa-
+terę, które nie jest jeszcze przygotowane, jest reprezentowane przez obiekt None.
+Specyfikacja: funkcja przyjmuje dwa parametry (ilość wierszy i kolum) i zwraca listę list, w których
+elementami są referencje do None.
+2. Przygotowanie kwatery.
+Reprezentacja kwatery ma umożliwiać opis jej stanu w sposób elastyczny, ale pozwalający na na-
+rzucanie wymogów. Wygodną strukturą danych będzie słownik.
+Specyfikacja. Funkcja przyjmuje jako parametry: kwartał oraz dowolną ilość współrzędnych. Każda
+współrzędna ma być postaci pary (wiersz,kolumna). Zadaniem funkcji jest zmodyfikowanie kwar-
+tału tak, aby dla każdej pary zamieniał w stosownym miejscu None na pusty słownik.
+Uwagi: jeżeli na wskazanej pozycji jest już kwatera (słownik), to nie ma powodu jej ponownie przy-
+gotowywać. Zwłaszcza, jeżeli jest w niej zawartość (pochówek).
+3. Pochówek.
+Do przygotowanej, pustej kwatery można złożyć zdechłego zwierzaka. Wymogiem jest aby to by-
+ła rozgwiazda (Asteroidea). Przy pochówku jedyną istotną informacją jest ilość ramion chowanego
+drapieżnika.
+• Pochówek hurtowy.
+Funkcja o podobnej strukturze, jak w przypadku przygotowywania kwater: parametr podsta-
+wowy - kwartał, oraz dowolna ilość trójek, składających się ze współrzędnych oraz słownika
+z informacjami o grzebanej rozgwieździe.
+• Pochówek indywidualny.
+Funkcja przyjmuje:
+– parametry pozycyjne - kwartał i współrzędne,
+– parametr przekazywany (wyłącznie) przez identyfikator 1 - ilość ramion,
+– dowolną ilość parametrów przekazywanych przez identyfikatory - pozostałe atrybuty roz-
+gwiazdy.
+4. Wizualizacja.
+(a) Wizualizacja kwatery.
+Na kształcie przedstawiającym grób (prostokąt, rzut bryły, . . . ?) ma być narysowana rozgwiaz-
+da (poprawna ilość ramion) oraz liczba „świeczek”. Można uwzględniać i inne atrybuty (imię?
+kolor?).
+(b) Wizualizacja kwartału.
+Ma prezentować wszystkie kwatery w kwartale. Puste miejsca i puste kwatery nie wymagają
+zaznaczenia. Kwatery z pochówkiem powinny być widoczne, jak również podstawowe infor-
+macje (rysunek rozgwiazdy).
+Zadanie:
+1. Rozszerzyć zakres pochówków na amonity (Ammonoidea), ekshumowane z kopalń kwarcu. Infor-
+macje wymagane przy pochówku: średnica muszli i ilość zwojów, podawana jako kąt (2π na każdy
+pełny obrót).
+Uwzględnić amonity przy wizualizacji.
+
+2. Gromadzenie statystyk. Na podstawie dostarczonych reprezentacji kwartałów (dowolna ilość para-
+metrów) przygotować słownik ze zbiorczymi informacjami o zajętości kwater oraz rodzaju pochów-
+ków.
