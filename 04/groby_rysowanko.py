@@ -162,7 +162,9 @@ def statystyki(kw,*arg):
 
    
 def rysuj_obwod(x,y):
+#    turtus=turtle.tracer(False)
     turtus=turtle.Turtle()
+    
     turtus.up()
     turtus.goto(-400,400)
     turtus.down()
@@ -178,6 +180,7 @@ def rysuj_obwod(x,y):
     turtus.fd((BOK+ALEJKA)*x+ALEJKA)
     turtus.rt(90)
     turtus.hideturtle()
+#    turtus=turtle.tracer(True)
 
 def rysuj_kwatery(x,y):
     turtus=turtle.Turtle()
