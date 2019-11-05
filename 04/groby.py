@@ -61,7 +61,7 @@ def zakop_rozgwiazde(kw,x,y,r,*arg):
         print("Tu już jest coś zakopane!!...")
     else:
         kw[x][y]={"ilosc_ramion":r,"typ":'r'}
-        kw[x][y].update()
+        kw[x][y].update() #o dupę rozbić tę funkcję, dodaję słownik z pustym
 
     for i in range(0,len(arg),3):
         if kw[arg[i]][arg[i+1]]==None:
@@ -72,6 +72,19 @@ def zakop_rozgwiazde(kw,x,y,r,*arg):
         else:
             kw[arg[i]][arg[i+1]]={"ilosc_ramion":arg[i+2],"typ":'r'}
             kw[arg[i]][arg[i+1]].update()
+
+
+def zakop_rozgwiazde2(kw,x,y,*,ilosc_ramion,typ,**arg):
+    if kw[x][y]==None:
+        print("Wykop najpierw dołek!")
+        return None
+    elif kw[x][y]!={}:
+        print("Tu już jest coś zakopane!!...")
+    else:
+        kw[x][y]["ilosc_ramion"]=ilosc_ramion
+        kw[x][y]["typ"]=typ
+        kw[x][y].update(arg) 
+
 
 def zakop_slimaka(kw,x,y,fi,zwoje,*arg):
     if kw[x][y]==None:
