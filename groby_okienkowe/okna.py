@@ -9,14 +9,22 @@ BD=3
 def start(*args):
 
     name=args[0].get()
-    i1=int(args[1].get())
-    i2=int(args[2].get())
-    print(i1,i2,name)
-    args[3].destroy()
-    i3=groby.kwartal(i1,i2)
-    print(i3)
-    with open(name, "wb") as internal_filename:
-        pickle.dump(i3, internal_filename)
+    try:
+        i1=int(args[1].get())
+    except:
+        error("Współrzędna x musi być liczbą!") ##ujemne gówno!!!
+    else:
+        try:
+            i2=int(args[2].get())
+        except:
+            error("Współrzędna y musi być liczbą!")
+        else:
+            print(i1,i2,name)
+            args[3].destroy()
+            i3=groby.kwartal(i1,i2)
+            #print(i3)
+            with open(name, "wb") as internal_filename:
+                pickle.dump(i3, internal_filename)
 
 def okienko_kwatera():
     window = tk.Toplevel()
@@ -75,23 +83,34 @@ def error(arg):
     
 def start_koparka(*args):
     name=args[0].get()
-    i1=int(args[1].get())
-    i2=int(args[2].get())
-    print(i1,i2,name)
-    args[3].destroy()
-    with open(name, "rb") as new_filename:
-        pp = pickle.load(new_filename)
-    #print(pp)
-    i3=groby.koparka(pp,i1,i2)
-    #print(i3)
-    if i3==1:
-        error("Już tu kopałeś!")
-        
-    elif i3==2:
-        error("Trupów nie wykopujemy...")
+    try:
+        i1=int(args[1].get())
+    except:
+        error("Współrzędna x musi być liczbą!")
     else:
-        with open(name, "wb") as internal_filename:
-            pickle.dump(i3, internal_filename)
+        try:
+            i2=int(args[2].get())
+    #print(i1,i2,name)
+        except:
+            error("Współrzędna y musi być liczbą!")
+            args[3].destroy()
+        else:
+            try:
+                with open(name, "rb") as new_filename:
+                    pp = pickle.load(new_filename)
+            except:
+                error("Kwatera nie instnieje")
+            else:
+                i3=groby.koparka(pp,i1,i2)
+                if i3==1:
+                    error("Już tu kopałeś!")
+                elif i3==2:
+                    error("Trupów nie wykopujemy...")
+                elif i3==100:
+                    error("Podałeś niepoprawne dane!")
+                else:
+                    with open(name, "wb") as internal_filename:
+                        pickle.dump(i3, internal_filename)
 
 def rozgwiazda():
     window = tk.Toplevel()
@@ -119,22 +138,40 @@ def rozgwiazda():
 
 def start_rozgwiazda(*args):
     name=args[0].get()
-    i1=int(args[1].get())
-    i2=int(args[2].get())
-    i3=int(args[3].get())
-    args[4].destroy()
-    with open(name, "rb") as new_filename:
-        pp = pickle.load(new_filename)
-    #print(pp)
-    i5=groby.zakop_rozgwiazde(pp,i1,i2,i3)
-    if i5==1:
-        error("Wykop tutaj najpierw dołek!")
-    elif i5==2:
-        error("Tu już jest coś zakopane!")
+    try:
+        i1=int(args[1].get())
+    except:
+        error("Pierwsza współrzędna musi być liczbą!")
     else:
-        #print(i5)
-        with open(name, "wb") as internal_filename:
-            pickle.dump(i5, internal_filename)
+        try:
+            i2=int(args[2].get())
+        except:
+            error("Druga współrzędna musi być liczbą!")
+        else:
+            try:
+                i3=int(args[3].get())
+            except:
+                error("Trzecia współrzędna musi być liczbą!")
+            else:
+                args[4].destroy()
+                try:
+                    with open(name, "rb") as new_filename:
+                        pp = pickle.load(new_filename)
+                except:
+                    error("Kwatera nie instnieje")
+                else:
+                    #print(pp)
+                    i5=groby.zakop_rozgwiazde(pp,i1,i2,i3)
+                    if i5==1:
+                        error("Wykop tutaj najpierw dołek!")
+                    elif i5==2:
+                        error("Tu już jest coś zakopane!")
+                    elif i3==100:
+                        error("Podałeś niepoprawne dane!")
+                    else:
+                        #print(i5)
+                        with open(name, "wb") as internal_filename:
+                            pickle.dump(i5, internal_filename)
 
 
 def slimak():
@@ -166,24 +203,33 @@ def slimak():
 
 def start_slimak(*args):
     name=args[0].get()
-    i1=int(args[1].get())
-    i2=int(args[2].get())
-    i3=int(args[3].get())
-    i4=int(args[4].get())
-    args[5].destroy()
-    with open(name, "rb") as new_filename:
-        pp = pickle.load(new_filename)
-    #print(pp)
-    
-    i5=groby.zakop_slimaka(pp,i1,i2,i3,i4)
-    if i5==1:
-        error("Wykop tutaj najpierw dołek!")
-    elif i5==2:
-        error("Tu już jest coś zakopane!")
+    try:
+        i1=int(args[1].get())
+        i2=int(args[2].get())
+        i3=int(args[3].get())
+        i4=int(args[4].get())
+        args[5].destroy()
+    except:
+        error("Parametry muszą być liczbami!")
     else:
-    #print(i5)
-        with open(name, "wb") as internal_filename:
-            pickle.dump(i5, internal_filename)
+        try:
+            with open(name, "rb") as new_filename:
+                pp = pickle.load(new_filename)
+            #print(pp)
+        except:
+            error("Kwatera nie istnieje")
+        else:
+            i5=groby.zakop_slimaka(pp,i1,i2,i3,i4)
+            if i5==1:
+                error("Wykop tutaj najpierw dołek!")
+            elif i5==2:
+                error("Tu już jest coś zakopane!")
+            elif i3==100:
+                error("Podałeś niepoprawne dane!")
+            else:
+            #print(i5)
+                with open(name, "wb") as internal_filename:
+                    pickle.dump(i5, internal_filename)
 
 
 def rysuj():
@@ -204,11 +250,15 @@ def rysuj():
 def rysuj_cmentarz(arg1, window):
 
     arg=str(arg1.get())
-    with open(arg, "rb") as new_filename:
-        pp = pickle.load(new_filename)
-    #print(pp)
-    groby.rysuj(pp)
-    window.destroy()
+    try:
+        with open(arg, "rb") as new_filename:
+            pp = pickle.load(new_filename)
+    except:
+        error("Podana kwatera nie istnieje!")
+        window.destroy()
+    else:
+        groby.rysuj(pp)
+        window.destroy()
 
 def statystyki(win):
     window = tk.Toplevel()
@@ -227,13 +277,16 @@ def statystyki(win):
 
 def stats(e1, window, win):
     name=str(e1.get())
-    window.destroy()
-    with open(name, "rb") as new_filename:
-        pp = pickle.load(new_filename)
+    try:
+        with open(name, "rb") as new_filename:
+            pp = pickle.load(new_filename)
+    except:
+        error("Podana kwatera nie istnieje!")
+        window.destroy()
+    else:
+        stat=groby.statystyki(pp)
     
-    stat=groby.statystyki(pp)
-    #win.insert(END,stat+"\n")
-    print(stat)
+    print(stat) ##dać to w okienku!!
     
     
 def print_obj():
