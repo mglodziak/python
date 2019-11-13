@@ -61,6 +61,18 @@ def wykop_dolki():
     ok.place(x=30,y=250)
     anuluj.place(x=220,y=250)
 
+    
+def error(arg):
+    win = tk.Toplevel()
+    win.title("BŁĄD!")
+    win.geometry("400x400+250+100")
+    ok=tk.Button(win, text="OK", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:win.destroy(),\
+                     background="green", activebackground="yellow")
+    tk.Label(win, text=arg).place(x=150,y=120)
+    #print(arg)
+    ok.place(x=125,y=250)
+    
 def start_koparka(*args):
     name=args[0].get()
     i1=int(args[1].get())
@@ -69,11 +81,17 @@ def start_koparka(*args):
     args[3].destroy()
     with open(name, "rb") as new_filename:
         pp = pickle.load(new_filename)
-    print(pp)
+    #print(pp)
     i3=groby.koparka(pp,i1,i2)
-    print(i3)
-    with open(name, "wb") as internal_filename:
-        pickle.dump(i3, internal_filename)
+    #print(i3)
+    if i3==1:
+        error("Już tu kopałeś!")
+        
+    elif i3==2:
+        error("Trupów nie wykopujemy...")
+    else:
+        with open(name, "wb") as internal_filename:
+            pickle.dump(i3, internal_filename)
 
 def rozgwiazda():
     window = tk.Toplevel()
@@ -107,12 +125,16 @@ def start_rozgwiazda(*args):
     args[4].destroy()
     with open(name, "rb") as new_filename:
         pp = pickle.load(new_filename)
-    print(pp)
-    
+    #print(pp)
     i5=groby.zakop_rozgwiazde(pp,i1,i2,i3)
-    print(i5)
-    with open(name, "wb") as internal_filename:
-        pickle.dump(i5, internal_filename)
+    if i5==1:
+        error("Wykop tutaj najpierw dołek!")
+    elif i5==2:
+        error("Tu już jest coś zakopane!")
+    else:
+        #print(i5)
+        with open(name, "wb") as internal_filename:
+            pickle.dump(i5, internal_filename)
 
 
 def slimak():
@@ -151,12 +173,17 @@ def start_slimak(*args):
     args[5].destroy()
     with open(name, "rb") as new_filename:
         pp = pickle.load(new_filename)
-    print(pp)
+    #print(pp)
     
     i5=groby.zakop_slimaka(pp,i1,i2,i3,i4)
-    print(i5)
-    with open(name, "wb") as internal_filename:
-        pickle.dump(i5, internal_filename)
+    if i5==1:
+        error("Wykop tutaj najpierw dołek!")
+    elif i5==2:
+        error("Tu już jest coś zakopane!")
+    else:
+    #print(i5)
+        with open(name, "wb") as internal_filename:
+            pickle.dump(i5, internal_filename)
 
 
 def rysuj():
@@ -179,7 +206,7 @@ def rysuj_cmentarz(arg1, window):
     arg=str(arg1.get())
     with open(arg, "rb") as new_filename:
         pp = pickle.load(new_filename)
-    print(pp)
+    #print(pp)
     groby.rysuj(pp)
     window.destroy()
 
@@ -247,7 +274,7 @@ def main():
              command=rozgwiazda)
     p4=tk.Button(o, text="Zakop ślimaka", height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
              command=slimak)
-    p5=tk.Button(o, text="Rysuj to gówno!",height=HEIGHT, width=WIDTH, activebackground="yellow",\
+    p5=tk.Button(o, text="Rysuj kwaterę",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=rysuj)
     p6=tk.Button(o, text="Statystyki",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=lambda:statystyki(out))

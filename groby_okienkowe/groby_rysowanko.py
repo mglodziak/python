@@ -40,18 +40,21 @@ def koparka(kw,x,y):
     if kw[x][y]==None:
         kw[x][y]={}
     elif kw[x][y]=={}:
-        print("Przecież przed chwilą tu kopałeś!...")
+        #print("Przecież przed chwilą tu kopałeś!...")
+        return 1
     else:
-        print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
+        #print("Serio? Trupa chcesz wykopać? Beze mnie takie numery...!")
+        return 2
 
     return kw
 
 def zakop_rozgwiazde(kw,x,y,r):
     if kw[x][y]==None:
         print("Wykop najpierw dołek!")
-        return None
+        return 1
     elif kw[x][y]!={}:
         print("Tu już jest coś zakopane!!...")
+        return 2
     else:
         kw[x][y]={"ilosc_ramion":r,"typ":'r'}
 
@@ -61,9 +64,10 @@ def zakop_rozgwiazde(kw,x,y,r):
 def zakop_slimaka(kw,x,y,fi,zwoje):
     if kw[x][y]==None:
         print("Wykop najpierw dołek!")
-        return None
+        return 1
     elif kw[x][y]!={}:
         print("Tu już jest coś zakopane!!...")
+        return 2
     else:
         kw[x][y]={"srednica":fi,"ilosc_zwojow":zwoje,"typ":'s'}
         
