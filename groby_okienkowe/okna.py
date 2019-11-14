@@ -77,9 +77,11 @@ def error(arg):
     ok=tk.Button(win, text="OK", height=HEIGHT, width=WIDTH,bd=BD,\
                      command=lambda:win.destroy(),\
                      background="green", activebackground="yellow")
-    tk.Label(win, text=arg).place(x=150,y=120)
+    tk.Label(win, text=arg, justify='center', font="20").pack(pady=100)
     #print(arg)
     ok.place(x=125,y=250)
+    
+    
     
 def start_koparka(*args):
     name=args[0].get()
@@ -316,7 +318,7 @@ def prt(e1, window):
 def main():
     o=tk.Tk()
     o.title("Cmentarz by M")
-    o.geometry("640x580+0+0")
+    o.geometry("640x552+0+0")
 
     out=tk.Text(width=50, height=10, bg="grey")
     p1=tk.Button(o, text="Dodaj kwaterę",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
@@ -331,7 +333,7 @@ def main():
              bd=BD,command=rysuj)
     p6=tk.Button(o, text="Statystyki",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=lambda:statystyki(out))
-    p7=tk.Button(o, text="Coming soon",height=HEIGHT, width=WIDTH, activebackground="yellow",\
+    p7=tk.Button(o, text="Print",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=print_obj)
     p8=tk.Button(o, text="Zakończ",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=o.destroy)
