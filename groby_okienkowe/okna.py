@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import tkinter as tk
 import groby_rysowanko as groby
 import pickle
@@ -95,7 +96,7 @@ def start_koparka(*args):
     #print(i1,i2,name)
         except:
             error("Współrzędna y musi być liczbą!")
-            args[3].destroy()
+            
         else:
             try:
                 with open(name, "rb") as new_filename:
@@ -104,6 +105,7 @@ def start_koparka(*args):
                 error("Kwatera nie instnieje")
             else:
                 i3=groby.koparka(pp,i1,i2)
+                args[3].destroy()
                 if i3==1:
                     error("Już tu kopałeś!")
                 elif i3==2:
@@ -287,7 +289,19 @@ def stats(e1, window, win):
         window.destroy()
     else:
         stat=groby.statystyki(pp)
+        i=4
+        while i>=0:
+            win.insert(1.0,list(stat.values())[i])
+            win.insert(1.0,": ")
+            win.insert(1.0,list(stat)[i])
+            win.insert(1.0,"\n")
+            i=i-1
+        win.insert(1.0,"\n")
+        win.insert(1.0, name)
+        win.insert(1.0, "Kwatera: ")
+        window.destroy()
     
+       
     print(stat) ##dać to w okienku!!
     
     
@@ -318,9 +332,10 @@ def prt(e1, window):
 def main():
     o=tk.Tk()
     o.title("Cmentarz by M")
-    o.geometry("640x552+0+0")
+    o.geometry("840x552+0+0")
 
-    out=tk.Text(width=50, height=10, bg="grey")
+    out=tk.Text(width=75, height=15, bg="grey")
+    #out.insert(1.0, "Dupa")
     p1=tk.Button(o, text="Dodaj kwaterę",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
              command=okienko_kwatera)
     p2=tk.Button(o, text="Wykop dołek",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
@@ -347,7 +362,7 @@ def main():
     p6.grid(row=6,column=1)
     p7.grid(row=7,column=1)
     p8.grid(row=8,column=1)
-    out.grid(row=2,column=2,rowspan=3, padx=40)
+    out.grid(row=2,column=2,rowspan=4, padx=40)
     
 
     o.mainloop()

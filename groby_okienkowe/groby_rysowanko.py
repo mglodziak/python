@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import turtle
 import sys
 
@@ -105,7 +106,7 @@ def statystyki(kw,*arg):
             else:
                 print("ERROR klasy id -> Idiot Developer")
                 exit()
-    kw_stats={"Wszystkie miejsca":wszystkie, "Wolne": wolne, "Wolne już wykopane": wykopane_puste,"zakopane rozgwiazdy":rozgwiazdy, "zakopane ślimaki":slimaki}
+    kw_stats={"Wszystkie miejsca":wszystkie, "Wolne": wolne, "Wolne już wykopane": wykopane_puste,"Zakopane rozgwiazdy":rozgwiazdy, "Zakopane ślimaki":slimaki}
     print(kw_stats)
     return kw_stats
 
