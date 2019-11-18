@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import tkinter as tk
 import groby_rysowanko as groby
+import groby_rysowanko_fast as fast
 import pickle
 HEIGHT=3
 WIDTH=15
 BD=3
+FONT_SIZE=18
 
 
 def start(*args):
@@ -20,12 +22,19 @@ def start(*args):
         except:
             error("Współrzędna y musi być liczbą!")
         else:
-            print(i1,i2,name)
             args[3].destroy()
-            i3=groby.kwartal(i1,i2)
-            #print(i3)
-            with open(name, "wb") as internal_filename:
-                pickle.dump(i3, internal_filename)
+            if i1>11:
+                error("Niepoprawny rozmiar kwatery. Max x=11")
+            elif i1<1:
+                error("Niepoprawny rozmiar kwatery. Min x=1")
+            elif i2>11:
+                error("Niepoprawny rozmiar kwatery. Max y=11")
+            elif i2<1:
+                error("Niepoprawny rozmiar kwatery. Min y=1")
+            else:
+                i3=groby.kwartal(i1,i2)
+                with open(name, "wb") as internal_filename:
+                    pickle.dump(i3, internal_filename)
 
 def okienko_kwatera():
     window = tk.Toplevel()
@@ -104,17 +113,22 @@ def start_koparka(*args):
             except:
                 error("Kwatera nie instnieje")
             else:
-                i3=groby.koparka(pp,i1,i2)
-                args[3].destroy()
-                if i3==1:
-                    error("Już tu kopałeś!")
-                elif i3==2:
-                    error("Trupów nie wykopujemy...")
-                elif i3==100:
-                    error("Podałeś niepoprawne dane!")
-                else:
-                    with open(name, "wb") as internal_filename:
-                        pickle.dump(i3, internal_filename)
+                if i1<0:
+                    error("Współrzędna x nie może być ujemna!")
+                elif i2<0:
+                    error("Współrzędna y nie może być ujemna!")
+                else:                    
+                    i3=groby.koparka(pp,i1,i2)
+                    args[3].destroy()
+                    if i3==1:
+                        error("Już tu kopałeś!")
+                    elif i3==2:
+                        error("Trupów nie wykopujemy...")
+                    elif i3==100:
+                        error("Podałeś niepoprawne dane!")
+                    else:
+                        with open(name, "wb") as internal_filename:
+                            pickle.dump(i3, internal_filename)
 
 def rozgwiazda():
     window = tk.Toplevel()
@@ -164,7 +178,6 @@ def start_rozgwiazda(*args):
                 except:
                     error("Kwatera nie instnieje")
                 else:
-                    #print(pp)
                     i5=groby.zakop_rozgwiazde(pp,i1,i2,i3)
                     if i5==1:
                         error("Wykop tutaj najpierw dołek!")
@@ -173,7 +186,6 @@ def start_rozgwiazda(*args):
                     elif i3==100:
                         error("Podałeś niepoprawne dane!")
                     else:
-                        #print(i5)
                         with open(name, "wb") as internal_filename:
                             pickle.dump(i5, internal_filename)
 
@@ -219,7 +231,6 @@ def start_slimak(*args):
         try:
             with open(name, "rb") as new_filename:
                 pp = pickle.load(new_filename)
-            #print(pp)
         except:
             error("Kwatera nie istnieje")
         else:
@@ -231,7 +242,6 @@ def start_slimak(*args):
             elif i3==100:
                 error("Podałeś niepoprawne dane!")
             else:
-            #print(i5)
                 with open(name, "wb") as internal_filename:
                     pickle.dump(i5, internal_filename)
 
@@ -263,6 +273,34 @@ def rysuj_cmentarz(arg1, window):
     else:
         groby.rysuj(pp)
         window.destroy()
+        
+def rysuj_fast():
+    window = tk.Toplevel()
+    window.title("Rysuj")
+    window.geometry("400x400+250+100")
+    anuluj=tk.Button(window, text="Anuluj", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:window.destroy(),background="red", activebackground="yellow")
+    ok=tk.Button(window, text="OK", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:rysuj_cmentarz_fast(e1,window), background="green", activebackground="yellow")
+    tk.Label(window, text="Nazwa kwatery").place(x=30,y=50)
+    e1 = tk.Entry(window)
+  
+    e1.place(x=150,y=50)
+    ok.place(x=30,y=250)
+    anuluj.place(x=220,y=250)
+
+def rysuj_cmentarz_fast(arg1, window):
+
+    arg=str(arg1.get())
+    try:
+        with open(arg, "rb") as new_filename:
+            pp = pickle.load(new_filename)
+    except:
+        error("Podana kwatera nie istnieje!")
+        window.destroy()
+    else:
+        fast.rysuj(pp)
+        window.destroy()
 
 def statystyki(win):
     window = tk.Toplevel()
@@ -288,6 +326,7 @@ def stats(e1, window, win):
         error("Podana kwatera nie istnieje!")
         window.destroy()
     else:
+        win.delete(1.0,tk.END)
         stat=groby.statystyki(pp)
         i=4
         while i>=0:
@@ -299,21 +338,16 @@ def stats(e1, window, win):
         win.insert(1.0,"\n")
         win.insert(1.0, name)
         win.insert(1.0, "Kwatera: ")
-        window.destroy()
+        window.destroy()    
     
-       
-    print(stat) ##dać to w okienku!!
-    
-    
-def print_obj():
-
+def print_obj(win):
     window = tk.Toplevel()
     window.title("Print")
     window.geometry("400x400+250+100")
     anuluj=tk.Button(window, text="Anuluj", height=HEIGHT, width=WIDTH,bd=BD,\
                      command=lambda:window.destroy(),background="red", activebackground="yellow")
     ok=tk.Button(window, text="OK", height=HEIGHT, width=WIDTH,bd=BD,\
-                     command=lambda:prt(e1,window), background="green", activebackground="yellow")
+                     command=lambda:prt(e1,window,win), background="green", activebackground="yellow")
     tk.Label(window, text="Nazwa kwatery").place(x=30,y=50)
     e1 = tk.Entry(window)
   
@@ -321,21 +355,25 @@ def print_obj():
     ok.place(x=30,y=250)
     anuluj.place(x=220,y=250)
 
-def prt(e1, window):
+def prt(e1, window,win):
     name=str(e1.get())
     window.destroy()
-    with open(name, "rb") as new_filename:
-        pp = pickle.load(new_filename)
-    print(pp)
-    
+    try:
+        with open(name, "rb") as new_filename:
+            pp = pickle.load(new_filename)
+    except:
+        error("Podana kwatera nie istnieje!")
+    else:
+        win.delete(1.0,tk.END)
+        win.insert(1.0,pp)
+           
 
 def main():
     o=tk.Tk()
     o.title("Cmentarz by M")
-    o.geometry("840x552+0+0")
+    o.geometry("640x622+0+0")
 
-    out=tk.Text(width=75, height=15, bg="grey")
-    #out.insert(1.0, "Dupa")
+    out=tk.Text(width=50, height=15, bg="grey")#, font=("Helvetica",11))
     p1=tk.Button(o, text="Dodaj kwaterę",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
              command=okienko_kwatera)
     p2=tk.Button(o, text="Wykop dołek",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
@@ -346,14 +384,19 @@ def main():
              command=slimak)
     p5=tk.Button(o, text="Rysuj kwaterę",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=rysuj)
-    p6=tk.Button(o, text="Statystyki",height=HEIGHT, width=WIDTH, activebackground="yellow",\
+    p6=tk.Button(o, text="Rysuj kwaterę szybko",height=HEIGHT, width=WIDTH, activebackground="yellow",\
+             bd=BD,command=rysuj_fast)
+    p7=tk.Button(o, text="Statystyki",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=lambda:statystyki(out))
-    p7=tk.Button(o, text="Print",height=HEIGHT, width=WIDTH, activebackground="yellow",\
-             bd=BD,command=print_obj)
-    p8=tk.Button(o, text="Zakończ",height=HEIGHT, width=WIDTH, activebackground="yellow",\
+    p8=tk.Button(o, text="Wypisz kwaterę",height=HEIGHT, width=WIDTH, activebackground="yellow",\
+             bd=BD,command=lambda:print_obj(out))
+    p9=tk.Button(o, text="Zakończ",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=o.destroy)
     
-    
+    p01=tk.Button(o, text="+", height=HEIGHT//2, width=WIDTH//4, activebackground="yellow",\
+             bd=BD,command=o.destroy)
+    p02=tk.Button(o, text="-", height=HEIGHT//2, width=WIDTH//4, activebackground="yellow",\
+             bd=BD,command=o.destroy)
     p1.grid(row=1,column=1)
     p2.grid(row=2,column=1)
     p3.grid(row=3,column=1)
@@ -362,8 +405,10 @@ def main():
     p6.grid(row=6,column=1)
     p7.grid(row=7,column=1)
     p8.grid(row=8,column=1)
-    out.grid(row=2,column=2,rowspan=4, padx=40)
-    
+    p9.grid(row=9,column=1)
+    out.grid(row=2,column=2,rowspan=4, padx=40,columnspan=2)
+    p01.grid(row=6, column=2, sticky=tk.E)
+    p02.grid(row=6, column=3, sticky=tk.W)
 
     o.mainloop()
 
