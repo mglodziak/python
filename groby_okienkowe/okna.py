@@ -6,7 +6,8 @@ import pickle
 HEIGHT=3
 WIDTH=15
 BD=3
-FONT_SIZE=18
+global FONT_SIZE
+FONT_SIZE=14
 
 
 def start(*args):
@@ -339,6 +340,9 @@ def stats(e1, window, win):
         win.insert(1.0, name)
         win.insert(1.0, "Kwatera: ")
         window.destroy()    
+
+
+
     
 def print_obj(win):
     window = tk.Toplevel()
@@ -366,14 +370,57 @@ def prt(e1, window,win):
     else:
         win.delete(1.0,tk.END)
         win.insert(1.0,pp)
-           
+
+
+
+def drukuj(out,fs):
+    frame=tk.Frame(out, width=10, height=50)
+    dupa1=tk.Label(frame, text="dupa\n xx\ndd\nff", bg="green",anchor='nw', width=50, height=1, font=("Helvetica",fs))
+    dupa2=tk.Label(frame, text="xddx", bg="green",anchor='nw', width=50, height=1, font=("Helvetica",fs))
+    frame.place(x=0,y=0)    
+    dupa1.pack()
+    dupa2.pack()
+
+def drukuj2(out):
+    frame=tk.Frame(out, width=10, height=50)
+    dupa1=tk.Label(frame, text="dupa\n xx\ndd\nff", bg="red",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+    dupa2=tk.Label(frame, text="xddx", bg="green",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+    frame.place(x=0,y=0)    
+    dupa1.pack()
+    dupa2.pack()
+
+
+def plus(arg, out):
+    arg=arg+2
+    global FONT_SIZE
+    FONT_SIZE=arg
+    drukuj(out, FONT_SIZE)
+    print(FONT_SIZE)
+    #return FONT_SIZE
+
+def minus(arg, out):
+    arg=arg-2
+    global FONT_SIZE
+    FONT_SIZE=arg
+    drukuj(out, FONT_SIZE)
+    print(FONT_SIZE)
+    #return FONT_SIZE
+
+
+
 
 def main():
     o=tk.Tk()
+    
     o.title("Cmentarz by M")
     o.geometry("640x622+0+0")
 
-    out=tk.Text(width=50, height=15, bg="grey")#, font=("Helvetica",11))
+    #out=tk.Text( width=50, height=15,bg="light grey")#, font=("Helvetica",11))
+    out=tk.Label( width=50, height=15, bg="green")#, font=("Helvetica",11))
+    
+    
+
+    
     p1=tk.Button(o, text="Dodaj kwaterę",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
              command=okienko_kwatera)
     p2=tk.Button(o, text="Wykop dołek",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
@@ -394,9 +441,9 @@ def main():
              bd=BD,command=o.destroy)
     
     p01=tk.Button(o, text="+", height=HEIGHT//2, width=WIDTH//4, activebackground="yellow",\
-             bd=BD,command=o.destroy)
+             bd=BD,command=lambda:plus(FONT_SIZE, out))
     p02=tk.Button(o, text="-", height=HEIGHT//2, width=WIDTH//4, activebackground="yellow",\
-             bd=BD,command=o.destroy)
+             bd=BD,command=lambda:minus(FONT_SIZE, out))
     p1.grid(row=1,column=1)
     p2.grid(row=2,column=1)
     p3.grid(row=3,column=1)
@@ -407,6 +454,10 @@ def main():
     p8.grid(row=8,column=1)
     p9.grid(row=9,column=1)
     out.grid(row=2,column=2,rowspan=4, padx=40,columnspan=2)
+    drukuj(out, FONT_SIZE)
+    
+
+    
     p01.grid(row=6, column=2, sticky=tk.E)
     p02.grid(row=6, column=3, sticky=tk.W)
 
