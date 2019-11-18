@@ -303,14 +303,14 @@ def rysuj_cmentarz_fast(arg1, window):
         fast.rysuj(pp)
         window.destroy()
 
-def statystyki(win):
+def statystyki(win, main):
     window = tk.Toplevel()
     window.title("Statystyki")
     window.geometry("400x400+250+100")
     anuluj=tk.Button(window, text="Anuluj", height=HEIGHT, width=WIDTH,bd=BD,\
                      command=lambda:window.destroy(),background="red", activebackground="yellow")
     ok=tk.Button(window, text="OK", height=HEIGHT, width=WIDTH,bd=BD,\
-                     command=lambda:stats(e1,window,win), background="green", activebackground="yellow")
+                     command=lambda:stats(e1,window,win,main), background="green", activebackground="yellow")
     tk.Label(window, text="Nazwa kwatery").place(x=30,y=50)
     e1 = tk.Entry(window)
   
@@ -318,7 +318,7 @@ def statystyki(win):
     ok.place(x=30,y=250)
     anuluj.place(x=220,y=250)
 
-def stats(e1, window, win):
+def stats(e1, window, win, main):
     name=str(e1.get())
     try:
         with open(name, "rb") as new_filename:
@@ -327,22 +327,25 @@ def stats(e1, window, win):
         error("Podana kwatera nie istnieje!")
         window.destroy()
     else:
-        win.delete(1.0,tk.END)
-        stat=groby.statystyki(pp)
-        i=4
-        while i>=0:
-            win.insert(1.0,list(stat.values())[i])
-            win.insert(1.0,": ")
-            win.insert(1.0,list(stat)[i])
-            win.insert(1.0,"\n")
-            i=i-1
-        win.insert(1.0,"\n")
-        win.insert(1.0, name)
-        win.insert(1.0, "Kwatera: ")
-        window.destroy()    
-
-
-
+        global file
+        file=name
+        print(file)
+        drukuj(main)
+        window.destroy() 
+        
+##        win.delete(1.0,tk.END)
+##        stat=groby.statystyki(pp)
+##        i=4
+##        while i>=0:
+##            win.insert(1.0,list(stat.values())[i])
+##            win.insert(1.0,": ")
+##            win.insert(1.0,list(stat)[i])
+##            win.insert(1.0,"\n")
+##            i=i-1
+##        win.insert(1.0,"\n")
+##        win.insert(1.0, name)
+##        win.insert(1.0, "Kwatera: ")
+##        window.destroy()    
     
 def print_obj(win):
     window = tk.Toplevel()
@@ -373,54 +376,87 @@ def prt(e1, window,win):
 
 
 
-def drukuj(out,fs):
-    frame=tk.Frame(out, width=10, height=50)
-    dupa1=tk.Label(frame, text="dupa\n xx\ndd\nff", bg="green",anchor='nw', width=50, height=1, font=("Helvetica",fs))
-    dupa2=tk.Label(frame, text="xddx", bg="green",anchor='nw', width=50, height=1, font=("Helvetica",fs))
-    frame.place(x=0,y=0)    
-    dupa1.pack()
-    dupa2.pack()
+def drukuj(out):
+    try:
+        with open(file, "rb") as new_filename:
+            pp = pickle.load(new_filename)
+    except:
+        frame=tk.Frame(out, width=10, height=50)
+        d1=tk.Label(frame, text="dupa", bg="grey",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+        d1.pack()
+    else:
+        frame=tk.Frame(out, width=10, height=50)
+        stat=groby.statystyki(pp)
 
-def drukuj2(out):
-    frame=tk.Frame(out, width=10, height=50)
-    dupa1=tk.Label(frame, text="dupa\n xx\ndd\nff", bg="red",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
-    dupa2=tk.Label(frame, text="xddx", bg="green",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
-    frame.place(x=0,y=0)    
-    dupa1.pack()
-    dupa2.pack()
+        str1=str(list(stat)[0])
+        str2=str(list(stat.values())[0])
+        str3=str1+": "+str2
+        str4=str(list(stat)[1])
+        str5=str(list(stat.values())[1])
+        str6=str4+": "+str5
+        str7=str(list(stat)[2])
+        str8=str(list(stat.values())[2])
+        str9=str7+": "+str8
+        str10=str(list(stat)[3])
+        str11=str(list(stat.values())[3])
+        str12=str10+": "+str11
+        str13=str(list(stat)[4])
+        str14=str(list(stat.values())[4])
+        str15=str13+": "+str14
+        
+        d1=tk.Label(frame, text=str3, bg="grey",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+        d2=tk.Label(frame, text=str6, bg="grey",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+        d3=tk.Label(frame, text=str9, bg="grey",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+        d4=tk.Label(frame, text=str12, bg="grey",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+        d5=tk.Label(frame, text=str15, bg="grey",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+        d01=tk.Label(frame, text=' ', bg="grey",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+        
+        frame.place(x=0,y=0)    
+        d1.pack()
+        d2.pack()
+        d3.pack()
+        d4.pack()
+        d5.pack()
+        d01.pack()
+
+##def drukuj2(out):
+##    frame=tk.Frame(out, width=10, height=50)
+##    dupa1=tk.Label(frame, text="dupa\n xx\ndd\nff", bg="red",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+##    dupa2=tk.Label(frame, text="xddx", bg="green",anchor='nw', width=50, height=1, font=("Helvetica",FONT_SIZE))
+##    frame.place(x=0,y=0)    
+##    dupa1.pack()
+##    dupa2.pack()
 
 
 def plus(arg, out):
-    arg=arg+2
+    #8-25
+    if arg<25:
+        arg=arg+2
     global FONT_SIZE
     FONT_SIZE=arg
-    drukuj(out, FONT_SIZE)
+    drukuj(out)
     print(FONT_SIZE)
     #return FONT_SIZE
 
 def minus(arg, out):
-    arg=arg-2
+    if arg>9:
+        arg=arg-2
     global FONT_SIZE
     FONT_SIZE=arg
-    drukuj(out, FONT_SIZE)
+    drukuj(out)
     print(FONT_SIZE)
+    
     #return FONT_SIZE
-
-
-
 
 def main():
     o=tk.Tk()
     
     o.title("Cmentarz by M")
-    o.geometry("640x622+0+0")
+    o.geometry("640x552+0+0")
 
     #out=tk.Text( width=50, height=15,bg="light grey")#, font=("Helvetica",11))
-    out=tk.Label( width=50, height=15, bg="green")#, font=("Helvetica",11))
-    
-    
-
-    
+    out=tk.Label( width=50, height=15, bg="grey")#, font=("Helvetica",11))
+        
     p1=tk.Button(o, text="Dodaj kwaterę",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
              command=okienko_kwatera)
     p2=tk.Button(o, text="Wykop dołek",height=HEIGHT, width=WIDTH,bd=BD,activebackground="yellow",\
@@ -434,9 +470,9 @@ def main():
     p6=tk.Button(o, text="Rysuj kwaterę szybko",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=rysuj_fast)
     p7=tk.Button(o, text="Statystyki",height=HEIGHT, width=WIDTH, activebackground="yellow",\
-             bd=BD,command=lambda:statystyki(out))
-    p8=tk.Button(o, text="Wypisz kwaterę",height=HEIGHT, width=WIDTH, activebackground="yellow",\
-             bd=BD,command=lambda:print_obj(out))
+             bd=BD,command=lambda:statystyki(out,out))
+    #p8=tk.Button(o, text="Wypisz kwaterę",height=HEIGHT, width=WIDTH, activebackground="yellow",\
+             #bd=BD,command=lambda:print_obj(out))
     p9=tk.Button(o, text="Zakończ",height=HEIGHT, width=WIDTH, activebackground="yellow",\
              bd=BD,command=o.destroy)
     
@@ -451,18 +487,15 @@ def main():
     p5.grid(row=5,column=1)
     p6.grid(row=6,column=1)
     p7.grid(row=7,column=1)
-    p8.grid(row=8,column=1)
+    #p8.grid(row=8,column=1)
     p9.grid(row=9,column=1)
     out.grid(row=2,column=2,rowspan=4, padx=40,columnspan=2)
-    drukuj(out, FONT_SIZE)
-    
-
-    
+    drukuj(out)
+        
     p01.grid(row=6, column=2, sticky=tk.E)
     p02.grid(row=6, column=3, sticky=tk.W)
 
     o.mainloop()
-
     
 
 main()
