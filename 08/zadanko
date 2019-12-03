@@ -1,0 +1,24 @@
+1° funkcja wyznaczająca punkt na okręgu, przy zadanych 
+	(x,y), R, ang (stopnie, oś OX = 0°)
+
+2° funkcja generatorowa, dostarczająca kolejnych punktów na okręgu
+	-dane: parametry okręgu (x,y,R)
+	-krok kąta, 
+2.1° zamiast krok 0 ilosc punktow
+
+3° Kolorower banieczki zamiast punktów okręgu. Kolory losować.
+(Korzystając z funkcji generatorowej rysujemy bańki na okręgu, zamiast punktu)
+
+
+
+------------
+1° symbol newtona wyliczany w sposób funkcjyjny
+2° funkcja generująca funkcję: wielomian bernsteina
+	- parametry: u,i
+3° funkcja generatorowa zwracająca generator, dostarczający punkty Beziera
+	- parametry: sekwencja punktów kontrolnych
+	- parametr funkcji wewnętrznej: t \in [0,1]
+4° funkcja dostarczająca generator w postaci wyrażenia generatorowego, 
+	generator ma dostarczać kolejne punkty krzywej Beziera, 
+	- parametr: ilość punktów
+
