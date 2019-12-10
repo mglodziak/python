@@ -1,0 +1,11 @@
+zrobic klasę, która reprezentuje planszę 3x3 do sudoku
+za jej pomocą opisać sudoku, 3x3 w 3x3
+
+klasa ma reprezentować strukturę 
+klasa ma miec metodę zbuduj, parametr czy ma budować rekurencyjnie, czy koniec rekurencji
+
+następna metoda setter, getter, ustawianie pól 
+
+kolejna, wyznaczanie właściwości kolumn, wierszy
+
+i na koniec ma się samo rozwiązać
