@@ -12,6 +12,9 @@ class sudoku():
             self.board = [[None for x in range(3)] for y in range(3)]
 
 
+    def get_element(self, x, y):
+        print(self.board[x][y].board)
+
 #getter & setter
 
             #isinstance sudoku
