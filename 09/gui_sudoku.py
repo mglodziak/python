@@ -5,7 +5,7 @@ import tkinter.font as font
 HEIGHT=2
 WIDTH=11
 BD=3
-FONT_SIZE=25
+FONT_SIZE=20
 #fnt=tkFont.Font(size=25)
 
 dane={}
@@ -17,7 +17,7 @@ def starter(ss):
 def okienko_do_wpisania_cyferki():
     win=tk.Toplevel()
     win.title("Podaj cyfrę")
-    win.geometry("204x195+100+470")
+    win.geometry("210x210+100+470")
 
     labels=[]
     for k in range(9):
@@ -28,32 +28,37 @@ def okienko_do_wpisania_cyferki():
 
     labels[0].grid(row=1,column=1)
     labels[1].grid(row=1,column=2)
+    labels[2].grid(row=1,column=3)
+    labels[3].grid(row=2,column=1)
+    labels[4].grid(row=2,column=2)
+    labels[5].grid(row=2,column=3)
+    labels[6].grid(row=3,column=1)
+    labels[7].grid(row=3,column=2)
+    labels[8].grid(row=3,column=3)
+    
 
     
-    t1=tk.Button(labels[0], text="1",font=('Helvetica',FONT_SIZE),width=2, background="gold2",activebackground="light blue", command=lambda:starter('1'))
-
-    t2=tk.Button(labels[1], text="2",font=('Helvetica',FONT_SIZE),width=2, background="gold2",activebackground="light blue")
- #   t2.configure(image=pixel, command=lambda: starter('2'))
-    
-    t3=tk.Button(win, text="3",width=5, height=3, background="gold2",activebackground="light blue")
-    t4=tk.Button(win, text="4",width=5, height=3, background="gold2",activebackground="light blue")
-    t5=tk.Button(win, text="5",width=5, height=3, background="gold2",activebackground="light blue")
-    t6=tk.Button(win, text="6",width=5, height=3, background="gold2",activebackground="light blue")
-    t7=tk.Button(win, text="7",width=5, height=3, background="gold2",activebackground="light blue")
-    t8=tk.Button(win, text="8",width=5, height=3, background="gold2",activebackground="light blue")
-    t9=tk.Button(win, text="9",width=5, height=3, background="gold2",activebackground="light blue")   
+    t1=tk.Button(labels[0], text="1",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue", command=lambda:starter('1'))
+    t2=tk.Button(labels[1], text="2",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue")
+    t3=tk.Button(labels[2], text="3",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue")
+    t4=tk.Button(labels[3], text="4",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue")
+    t5=tk.Button(labels[4], text="5",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue")
+    t6=tk.Button(labels[5], text="6",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue")
+    t7=tk.Button(labels[6], text="7",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue")
+    t8=tk.Button(labels[7], text="8",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue")
+    t9=tk.Button(labels[8], text="9",font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue")   
   
    # frame.place(x=0,y=0)
   
-    t1.grid(row=0, column=0, sticky='nesw')
+    t1.grid(row=0,column=0, sticky='nesw')
     t2.grid(row=0,column=0, sticky='nesw')
-    t3.grid(row=1,column=3)
-    t4.grid(row=2,column=1)
-    t5.grid(row=2,column=2)
-    t6.grid(row=2,column=3)
-    t7.grid(row=3,column=1)
-    t8.grid(row=3,column=2)
-    t9.grid(row=3,column=3)
+    t3.grid(row=0,column=0, sticky='nesw')
+    t4.grid(row=0,column=0, sticky='nesw')
+    t5.grid(row=0,column=0, sticky='nesw')
+    t6.grid(row=0,column=0, sticky='nesw')
+    t7.grid(row=0,column=0, sticky='nesw')
+    t8.grid(row=0,column=0, sticky='nesw')
+    t9.grid(row=0,column=0, sticky='nesw')
 
 
 def fn(btn):
