@@ -29,7 +29,7 @@ def okienko_do_wpisania_cyferki():
     l1.grid(row=1,column=1)
 
     
-    t1=tk.Button(l1, text="1",font=('Helvetica','20'),width=2,background="gold2",activebackground="light blue", command=lambda:starter('1'))
+    t1=tk.Button(l1, text="1",font=('Helvetica','40'),width=2,background="gold2",activebackground="light blue", command=lambda:starter('1'))
 
     t2=tk.Button(win, text="2",width=5, height=3, background="gold2",activebackground="light blue")
  #   t2.configure(image=pixel, command=lambda: starter('2'))

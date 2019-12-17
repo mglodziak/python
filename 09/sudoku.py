@@ -13,7 +13,10 @@ class sudoku():
 
 
     def get_element(self, x, y):
-        print(self.board[x][y].board)
+        return (self.board[int(x/3)][int(y/3)].board[x%3][y%3])
+    
+    def set_element(self,x,y,w):
+        self.board[int(x/3)][int(y/3)].board[x%3][y%3]=w
 
 #getter & setter
 
@@ -21,4 +24,8 @@ class sudoku():
 
 a=sudoku()
 a.create(False)
-print(a.board[0][0].board[0][1])
+a.set_element(1,2,9)
+x=a.get_element(1,2)
+
+print(x)
+#print(a.board[0][0].board[0][1])
