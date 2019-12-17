@@ -1,5 +1,6 @@
 import tkinter as tk
 import random
+import tkinter.font as font
 
 HEIGHT=2
 WIDTH=11
@@ -7,6 +8,7 @@ BD=3
 #fnt=tkFont.Font(size=25)
 
 dane={}
+#myFont = font.Font(size=30)
 
 def starter(ss):
     print(ss)
@@ -15,10 +17,23 @@ def okienko_do_wpisania_cyferki():
     win=tk.Toplevel()
     win.title("Podaj cyfrę")
     win.geometry("204x195+100+470")
-    pixel=tk.PhotoImage(width=1, height=1)
-    t1=tk.Button(win, text="1",width=5, height=3, background="gold2",activebackground="light blue")
-    t2=tk.Button(win, font=('Helvetica',25),compound="c", text="2",width=40, height=51, background="gold2",activebackground="light blue")
-    t2.configure(image=pixel)
+
+    labels=[]
+    #for k in range(9):
+        
+    l1=tk.LabelFrame(win,width=70,height=70)
+    l1.grid_rowconfigure(0, weight=1)
+    l1.grid_columnconfigure(0, weight=1)    
+    l1.grid_propagate(False)
+
+    l1.grid(row=1,column=1)
+
+    
+    t1=tk.Button(l1, text="1",font=('Helvetica','20'),width=2,background="gold2",activebackground="light blue", command=lambda:starter('1'))
+
+    t2=tk.Button(win, text="2",width=5, height=3, background="gold2",activebackground="light blue")
+ #   t2.configure(image=pixel, command=lambda: starter('2'))
+    
     t3=tk.Button(win, text="3",width=5, height=3, background="gold2",activebackground="light blue")
     t4=tk.Button(win, text="4",width=5, height=3, background="gold2",activebackground="light blue")
     t5=tk.Button(win, text="5",width=5, height=3, background="gold2",activebackground="light blue")
@@ -26,8 +41,10 @@ def okienko_do_wpisania_cyferki():
     t7=tk.Button(win, text="7",width=5, height=3, background="gold2",activebackground="light blue")
     t8=tk.Button(win, text="8",width=5, height=3, background="gold2",activebackground="light blue")
     t9=tk.Button(win, text="9",width=5, height=3, background="gold2",activebackground="light blue")   
+  
    # frame.place(x=0,y=0)
-    t1.grid(row=1,column=1)
+  
+    t1.grid(row=0, column=0, sticky='nesw')
     t2.grid(row=1,column=2)
     t3.grid(row=1,column=3)
     t4.grid(row=2,column=1)
