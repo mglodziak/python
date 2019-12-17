@@ -20,19 +20,19 @@ def okienko_do_wpisania_cyferki():
     win.geometry("204x195+100+470")
 
     labels=[]
-    #for k in range(9):
-        
-    l1=tk.LabelFrame(win,width=70,height=70)
-    l1.grid_rowconfigure(0, weight=1)
-    l1.grid_columnconfigure(0, weight=1)    
-    l1.grid_propagate(False)
+    for k in range(9):
+        labels.append(tk.LabelFrame(win,width=70,height=70))
+        labels[k].grid_rowconfigure(0, weight=1)
+        labels[k].grid_columnconfigure(0, weight=1)    
+        labels[k].grid_propagate(False)
 
-    l1.grid(row=1,column=1)
+    labels[0].grid(row=1,column=1)
+    labels[1].grid(row=1,column=2)
 
     
-    t1=tk.Button(l1, text="1",font=('Helvetica',FONT_SIZE),width=2,background="gold2",activebackground="light blue", command=lambda:starter('1'))
+    t1=tk.Button(labels[0], text="1",font=('Helvetica',FONT_SIZE),width=2, background="gold2",activebackground="light blue", command=lambda:starter('1'))
 
-    t2=tk.Button(win, text="2",width=5, height=3, background="gold2",activebackground="light blue")
+    t2=tk.Button(labels[1], text="2",font=('Helvetica',FONT_SIZE),width=2, background="gold2",activebackground="light blue")
  #   t2.configure(image=pixel, command=lambda: starter('2'))
     
     t3=tk.Button(win, text="3",width=5, height=3, background="gold2",activebackground="light blue")
@@ -46,7 +46,7 @@ def okienko_do_wpisania_cyferki():
    # frame.place(x=0,y=0)
   
     t1.grid(row=0, column=0, sticky='nesw')
-    t2.grid(row=1,column=2)
+    t2.grid(row=0,column=0, sticky='nesw')
     t3.grid(row=1,column=3)
     t4.grid(row=2,column=1)
     t5.grid(row=2,column=2)
