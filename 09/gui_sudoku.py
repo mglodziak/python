@@ -5,6 +5,7 @@ import tkinter.font as font
 HEIGHT=2
 WIDTH=11
 BD=3
+FONT_SIZE=25
 #fnt=tkFont.Font(size=25)
 
 dane={}
@@ -29,7 +30,7 @@ def okienko_do_wpisania_cyferki():
     l1.grid(row=1,column=1)
 
     
-    t1=tk.Button(l1, text="1",font=('Helvetica','40'),width=2,background="gold2",activebackground="light blue", command=lambda:starter('1'))
+    t1=tk.Button(l1, text="1",font=('Helvetica',FONT_SIZE),width=2,background="gold2",activebackground="light blue", command=lambda:starter('1'))
 
     t2=tk.Button(win, text="2",width=5, height=3, background="gold2",activebackground="light blue")
  #   t2.configure(image=pixel, command=lambda: starter('2'))
@@ -110,6 +111,7 @@ def main():
     index=[i for i in range(10,100) if i%10!=0]
 
     global buttons
+
     buttons={}
 
     
@@ -148,9 +150,10 @@ def main():
     p4.grid(row=4, column=1)
     p5.grid(row=5, column=1)
 
-
+    
 
     window.mainloop()
+ 
 
     
 main()
