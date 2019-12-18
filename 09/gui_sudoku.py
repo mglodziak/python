@@ -50,20 +50,20 @@ def main():
     window=tk.Tk()
     window.title("Sudoku by M")
     window.geometry("1024x768+0+0")
-    menu=tk.Label(bg="black")
+    menu=tk.Label(bg="dark blue")
     window.configure(background="light yellow")
 
     ix=[i for i in range(9)]
     game=[]
     for i in ix:
-        game.append(tk.LabelFrame(height=12, width=27,bg='black',  padx=2, pady=2))
+        game.append(tk.LabelFrame(height=12, width=27,bg='dark blue',  padx=2, pady=2))
 
               
-    p1=tk.Button(menu, text="Nowa gra", height=HEIGHT, width=WIDTH, bd=BD, background='light blue', activebackground="gold2" )
-    p2=tk.Button(menu, text="Wczytaj grę", height=HEIGHT, width=WIDTH, bd=BD,background='light blue', activebackground="gold2")
-    p3=tk.Button(menu, text="Zapisz grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
-    p4=tk.Button(menu, text="Rekordy", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
-    p5=tk.Button(menu, text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
+    p1=tk.Button(menu, fg='dark blue',text="Nowa gra", height=HEIGHT, width=WIDTH, bd=BD, background='light blue', activebackground="gold2" )
+    p2=tk.Button(menu, fg='dark blue',text="Wczytaj grę", height=HEIGHT, width=WIDTH, bd=BD,background='light blue', activebackground="gold2")
+    p3=tk.Button(menu, fg='dark blue',text="Zapisz grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
+    p4=tk.Button(menu, fg='dark blue',text="Rekordy", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
+    p5=tk.Button(menu, fg='dark blue',text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
 
 
     labe=[]
@@ -74,7 +74,7 @@ def main():
         labe[k].grid_columnconfigure(0, weight=1)    
         labe[k].grid_propagate(False)
         labe[k].place(x=275+k*70,y=660)
-        obj=(tk.Button(labe[k], text=k+1,font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue"))
+        obj=(tk.Button(labe[k], fg='dark blue', activeforeground='dark blue', text=k+1,font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue"))
         obj.configure(command=lambda btn=obj:fn2(btn))
         btns.append(obj)
         btns[k].grid(row=0,column=0, sticky='nesw')
