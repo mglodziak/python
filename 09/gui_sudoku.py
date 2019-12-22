@@ -8,11 +8,13 @@ BD=3
 FONT_SIZE=18
 
 
+
 #fnt=tkFont.Font(size=25)
 
 dane={}
 original_dane={}
-
+dane_start_gry={}
+yes_or_not={}
 
 labe=[]
 btns=[]
@@ -34,7 +36,7 @@ def fn(btn):
         res=str(x)+str(y)
         print(res)
         last_clicked=res
-        return last_clicked
+     #   return last_clicked
         
     else:    
         try:
@@ -45,10 +47,11 @@ def fn(btn):
         print(res)
 
         last_clicked=res
-        return last_clicked
-    #print(buttons[int(last_clicked)])
         
-
+    #    return last_clicked
+    #print(buttons[int(last_clicked)])
+    change_color(dane[int(last_clicked)], last_clicked)   
+    return last_clicked
         #btn.configure(text='xd')
        
 def fn2(btn):
@@ -59,9 +62,25 @@ def fn2(btn):
     res=int(res)-9
     global last_clicked
     #print(last_clicked)
-    dane[int(last_clicked)]=res
-    buttons[int(last_clicked)].configure(text=res)
-    print(dane)
+    if yes_or_not[int(last_clicked)]==1:
+        dane[int(last_clicked)]=str(res)
+        buttons[int(last_clicked)].configure(text=res)
+    #print(dane)
+
+
+def change_color(n, lc):
+    index=[i for i in range(10,100) if i%10!=0]
+   
+    for j in index:
+        if dane[j]==str(n):
+            buttons[j].configure(background="steel blue")
+        else:
+            buttons[j].configure(background="light blue")
+        if dane[j]==' ':
+            buttons[j].configure(background="light blue")   
+
+    buttons[int(lc)].configure(background="chartreuse3")
+    
     
 def make_sudoku():
     #from stackoverflow
@@ -127,7 +146,12 @@ def make_sudoku():
     for i, j in zip(index, ix):
         #print(i, j)
         dane[i]=str(board[j[0]][j[1]])
-    original_dane=dane
+        original_dane[i]=str(board[j[0]][j[1]])
+    
+    print(original_dane)
+    index=[i for i in range(10,100) if i%10!=0]
+    for j in index:
+        yes_or_not[j]=0
    
 
 def remove_some_data(n):
@@ -138,12 +162,34 @@ def remove_some_data(n):
             remove_some_data(1)
          
         dane[ix]=' '
+        yes_or_not[ix]=1
      
-    
+
+def usun():
+    try:
+        if yes_or_not[int(last_clicked)]==1:
+            dane[int(last_clicked)]=' ' 
+            buttons[int(last_clicked)].configure(text=' ')
+    except:
+        pass
+
+
+def ok():
+    index=[i for i in range(10,100) if i%10!=0]
+    for i in index:
+        if dane[i]!=original_dane[i]:
+            print("chujowo")
+            return
+       # print(original_dane[i])
+    print('dobrze')
 
 def main():
     make_sudoku()
-    remove_some_data(40)
+    no_to_remove=3
+    remove_some_data(no_to_remove)
+    
+    dane_start_gry=dane
+    print(yes_or_not)
    # print(dane)
     window=tk.Tk()
     window.title("Sudoku by M")
@@ -162,20 +208,36 @@ def main():
     p3=tk.Button(menu, fg='dark blue',text="Zapisz grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
     p4=tk.Button(menu, fg='dark blue',text="Rekordy", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
     p5=tk.Button(menu, fg='dark blue',text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
-
-
+    
 
     for k in range(9):
-        labe.append(tk.LabelFrame(window,width=70,height=70))
+        labe.append(tk.LabelFrame(window,width=70,height=70, bg='dark blue'))
         labe[k].grid_rowconfigure(0, weight=1)
         labe[k].grid_columnconfigure(0, weight=1)    
         labe[k].grid_propagate(False)
         labe[k].place(x=275+k*70,y=660)
-        obj=(tk.Button(labe[k], fg='dark blue', activeforeground='dark blue', text=k+1,font=('Helvetica',FONT_SIZE), background="gold2",activebackground="light blue"))
+        obj=(tk.Button(labe[k], activeforeground='dark blue', text=k+1,font=('Helvetica',FONT_SIZE), background="light blue",activebackground="gold2"))
         obj.configure(command=lambda btn=obj:fn2(btn))
         btns.append(obj)
         btns[k].grid(row=0,column=0, sticky='nesw')
-        
+
+    usun_frame=tk.LabelFrame(window,width=70,height=70, bg='dark blue')
+    usun_frame.grid_rowconfigure(0, weight=1)
+    usun_frame.grid_columnconfigure(0, weight=1)
+    usun_frame.grid_propagate(False)
+    usun_frame.place(x=925, y=571)
+    obj=(tk.Button(usun_frame, activeforeground='dark blue', text='Usuń',font=('Helvetica',FONT_SIZE), background="light blue",activebackground="gold2"))
+    obj.configure(command=lambda btn=obj:usun())
+    obj.grid(row=0, column=0, sticky='nesw')
+
+    ok_frame=tk.LabelFrame(window,width=125,height=70, bg='dark blue')
+    ok_frame.grid_rowconfigure(0, weight=1)
+    ok_frame.grid_columnconfigure(0, weight=1)
+    ok_frame.grid_propagate(False)
+    ok_frame.place(x=20, y=571)
+    obj=(tk.Button(ok_frame, activeforeground='dark blue', text='Zatwierdź',font=('Helvetica',FONT_SIZE), background="light blue",activebackground="gold2"))
+    obj.configure(command=lambda btn=obj:ok())
+    obj.grid(row=0, column=0, sticky='nesw')
     #print(btns[3])
     
     for i in ix:
@@ -232,10 +294,6 @@ def main():
     p4.grid(row=4, column=1)
     p5.grid(row=5, column=1)
 
-    
-
     window.mainloop()
  
-
-    
 main()
