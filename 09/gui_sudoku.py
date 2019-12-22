@@ -6,17 +6,23 @@ HEIGHT=2
 WIDTH=11
 BD=3
 FONT_SIZE=18
+
+
 #fnt=tkFont.Font(size=25)
 
 dane={}
+original_dane={}
+
+
+labe=[]
+btns=[]
 #myFont = font.Font(size=30)
 
-def starter(ss):
-    print(ss)
 
 
 def fn(btn):
 
+    global last_clicked
     st=str(btn)
     x=st[12]
     if x=='.':
@@ -27,7 +33,8 @@ def fn(btn):
             y=1
         res=str(x)+str(y)
         print(res)
-        return res
+        last_clicked=res
+        return last_clicked
         
     else:    
         try:
@@ -36,17 +43,108 @@ def fn(btn):
             y=1
         res=str(x)+str(y)
         print(res)
-        return res
+
+        last_clicked=res
+        return last_clicked
+    #print(buttons[int(last_clicked)])
+        
+
+        #btn.configure(text='xd')
+       
 def fn2(btn):
     st=str(btn)
     x=st[12]
     y=st[13]
     res=str(x)+str(y)
     res=int(res)-9
-    print(res)
+    global last_clicked
+    #print(last_clicked)
+    dane[int(last_clicked)]=res
+    buttons[int(last_clicked)].configure(text=res)
+    print(dane)
+    
+def make_sudoku():
+    #from stackoverflow
+    base  = 3
+    side  = base*base
+
+    # pattern for a baseline valid solution
+    def pattern(r,c): return (base*(r%base)+r//base+c)%side
+
+    # randomize rows, columns and numbers (of valid base pattern)
+    from random import sample
+    def shuffle(s): return sample(s,len(s)) 
+    rBase = range(base) 
+    rows  = [ g*base + r for g in shuffle(rBase) for r in shuffle(rBase) ] 
+    cols  = [ g*base + c for g in shuffle(rBase) for c in shuffle(rBase) ]
+    nums  = shuffle(range(1,base*base+1))
+
+    # produce board using randomized baseline pattern
+    board = [ [nums[pattern(r,c)] for c in cols] for r in rows ]
+ 
+    
+    index=[i for i in range(10,100) if i%10!=0]
+    ix=[]
+    for i in range(3):
+        for j in range(3):
+            x=(i,j)
+            ix.append(x)
+    for i in range(3):
+        for j in range(3,6):
+            x=(i,j)
+            ix.append(x)
+    for i in range(3):
+        for j in range(6,9):
+            x=(i,j)
+            ix.append(x)
+            
+    for i in range(3,6):
+        for j in range(3):
+            x=(i,j)
+            ix.append(x)
+    for i in range(3,6):
+        for j in range(3,6):
+            x=(i,j)
+            ix.append(x)
+    for i in range(3,6):
+        for j in range(6,9):
+            x=(i,j)
+            ix.append(x)
+            
+    for i in range(6,9):
+        for j in range(3):
+            x=(i,j)
+            ix.append(x)
+    for i in range(6,9):
+        for j in range(3,6):
+            x=(i,j)
+            ix.append(x)
+    for i in range(6,9):
+        for j in range(6,9):
+            x=(i,j)
+            ix.append(x)
+            
+    for i, j in zip(index, ix):
+        #print(i, j)
+        dane[i]=str(board[j[0]][j[1]])
+    original_dane=dane
+   
+
+def remove_some_data(n):
+    for j in range(n):
+        index=[i for i in range(10,100) if i%10!=0]
+        ix=random.choice(index)
+        if dane[ix]==' ':
+            remove_some_data(1)
+         
+        dane[ix]=' '
+     
     
 
 def main():
+    make_sudoku()
+    remove_some_data(40)
+   # print(dane)
     window=tk.Tk()
     window.title("Sudoku by M")
     window.geometry("1024x768+0+0")
@@ -66,8 +164,7 @@ def main():
     p5=tk.Button(menu, fg='dark blue',text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
 
 
-    labe=[]
-    btns=[]
+
     for k in range(9):
         labe.append(tk.LabelFrame(window,width=70,height=70))
         labe[k].grid_rowconfigure(0, weight=1)
@@ -79,7 +176,7 @@ def main():
         btns.append(obj)
         btns[k].grid(row=0,column=0, sticky='nesw')
         
-    print(btns[3])
+    #print(btns[3])
     
     for i in ix:
         if i%3==0:
@@ -94,11 +191,16 @@ def main():
     global buttons
     buttons={}
     
-    print(index)
+    #print(index)
     pixel = tk.PhotoImage(width=1, height=1)
     for i in index:
         quad=i//10-1
-        obj=tk.Button(game[quad], text=random.randrange(1,10),compound='c',font=('Helvetica',FONT_SIZE),image=pixel,width=40, height=50, background="light blue",activebackground="gold2")
+        try:
+            txt=dane[i][0]
+        except:
+            txt='xd'
+       # print(txt)
+        obj=tk.Button(game[quad], text=txt, compound='c',font=('Helvetica',FONT_SIZE),image=pixel,width=40, height=50, background="light blue",activebackground="gold2")
         obj.configure(command=lambda btn=obj:fn(btn))
         buttons[i]=obj
 
