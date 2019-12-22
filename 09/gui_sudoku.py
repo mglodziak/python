@@ -183,6 +183,21 @@ def ok():
        # print(original_dane[i])
     print('dobrze')
 
+def exiiit(wnd):
+    win=tk.Toplevel()
+    win.title("Zakończ")
+    win.geometry("450x300+400+300")
+    anuluj=tk.Button(win, text="Anuluj", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:win.destroy(),background="red", activebackground="yellow")
+    ok=tk.Button(win, text="Zakończ", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:wnd.destroy(), background="green", activebackground="yellow")
+    tk.Label(win, text="Zakończyć? Wszelkie niezapisany zmiany zostaną utracone.").place(x=30,y=50)
+    ok.place(x=80, y=150)
+    anuluj.place(x=250, y=150)
+    #win.destroy()
+    
+    
+
 def main():
     make_sudoku()
     no_to_remove=3
@@ -204,10 +219,11 @@ def main():
 
               
     p1=tk.Button(menu, fg='dark blue',text="Nowa gra", height=HEIGHT, width=WIDTH, bd=BD, background='light blue', activebackground="gold2" )
-    p2=tk.Button(menu, fg='dark blue',text="Wczytaj grę", height=HEIGHT, width=WIDTH, bd=BD,background='light blue', activebackground="gold2")
+    p2=tk.Button(menu, fg='dark blue',text="Od nowa", height=HEIGHT, width=WIDTH, bd=BD,background='light blue', activebackground="gold2")
     p3=tk.Button(menu, fg='dark blue',text="Zapisz grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
-    p4=tk.Button(menu, fg='dark blue',text="Rekordy", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
-    p5=tk.Button(menu, fg='dark blue',text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
+    p4=tk.Button(menu, fg='dark blue',text="Wczytaj grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
+    p5=tk.Button(menu, fg='dark blue',text="Rekordy", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
+    p6=tk.Button(menu, fg='dark blue',text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2", command=lambda:exiiit(window))
     
 
     for k in range(9):
@@ -287,12 +303,13 @@ def main():
             buttons[i].grid(row=3, column=3)
             
     
-    menu.place(x=20, y=200)
+    menu.place(x=20, y=51)
     p1.grid(row=1, column=1)
     p2.grid(row=2, column=1)
     p3.grid(row=3, column=1)
     p4.grid(row=4, column=1)
     p5.grid(row=5, column=1)
+    p6.grid(row=6, column=1)
 
     window.mainloop()
  
