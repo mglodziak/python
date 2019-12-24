@@ -6,6 +6,14 @@ HEIGHT=2
 WIDTH=11
 BD=3
 FONT_SIZE=18
+no_to_remove=30
+LST=None
+
+global podpowiedzi
+podpowiedzi=0
+
+
+
 
 
 
@@ -23,7 +31,7 @@ btns=[]
 
 
 def fn(btn):
-
+    global podpowiedzi
     global last_clicked
     st=str(btn)
     x=st[12]
@@ -55,6 +63,7 @@ def fn(btn):
         #btn.configure(text='xd')
        
 def fn2(btn):
+    global podpowiedzi
     st=str(btn)
     x=st[12]
     y=st[13]
@@ -65,19 +74,32 @@ def fn2(btn):
     if yes_or_not[int(last_clicked)]==1:
         dane[int(last_clicked)]=str(res)
         buttons[int(last_clicked)].configure(text=res)
+        print(podpowiedzi)
+        change_color(dane[int(last_clicked)],last_clicked)
     #print(dane)
 
 
 def change_color(n, lc):
+    global podpowiedzi
     index=[i for i in range(10,100) if i%10!=0]
-   
-    for j in index:
-        if dane[j]==str(n):
-            buttons[j].configure(background="steel blue")
-        else:
+    global LST
+    if podpowiedzi==1:
+        for j in index:
             buttons[j].configure(background="light blue")
-        if dane[j]==' ':
-            buttons[j].configure(background="light blue")   
+            if dane[j]==str(n) and dane[j]!=' ':
+                buttons[j].configure(background="steel blue")
+                LST=n
+               # print(LST)
+            elif dane[j]==' ':
+                index2=[i for i in range(10,100) if i%10!=0]
+                for k in index2:
+                    buttons[k].configure(background="light blue")
+                    if dane[k]==str(LST):
+                       buttons[k].configure(background="steel blue")
+
+    else:
+        for j in index:
+            buttons[j].configure(background="light blue")
 
     buttons[int(lc)].configure(background="chartreuse3")
     
@@ -178,7 +200,7 @@ def ok():
     index=[i for i in range(10,100) if i%10!=0]
     for i in index:
         if dane[i]!=original_dane[i]:
-            print("chujowo")
+            print("źle")
             return
        # print(original_dane[i])
     print('dobrze')
@@ -196,11 +218,33 @@ def exiiit(wnd):
     anuluj.place(x=250, y=150)
     #win.destroy()
     
+def chng1():
+    global podpowiedzi
+    podpowiedzi=1
+    index=[i for i in range(10,100) if i%10!=0]
+    global LST
+    for j in index:
+        buttons[j].configure(background="light blue")
+        if dane[j]==str(dane[int(last_clicked)]) and dane[j]!=' ':
+            buttons[j].configure(background="steel blue")
+            LST=str(dane[int(last_clicked)])
+            ##brakuje zielonego
+    buttons[int(last_clicked)].configure(background="chartreuse3")
+            
+
+def chng2():
+    global podpowiedzi
+    podpowiedzi=0
+    index=[i for i in range(10,100) if i%10!=0]
+    for j in index:
+        buttons[j].configure(background="light blue")
+    buttons[int(last_clicked)].configure(background="chartreuse3")
     
 
 def main():
+    global podpowiedzi
     make_sudoku()
-    no_to_remove=3
+
     remove_some_data(no_to_remove)
     
     dane_start_gry=dane
@@ -218,20 +262,22 @@ def main():
         game.append(tk.LabelFrame(height=12, width=27,bg='dark blue',  padx=2, pady=2))
 
               
-    p1=tk.Button(menu, fg='dark blue',text="Nowa gra", height=HEIGHT, width=WIDTH, bd=BD, background='light blue', activebackground="gold2" )
-    p2=tk.Button(menu, fg='dark blue',text="Od nowa", height=HEIGHT, width=WIDTH, bd=BD,background='light blue', activebackground="gold2")
-    p3=tk.Button(menu, fg='dark blue',text="Zapisz grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
-    p4=tk.Button(menu, fg='dark blue',text="Wczytaj grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
-    p5=tk.Button(menu, fg='dark blue',text="Rekordy", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
-    p6=tk.Button(menu, fg='dark blue',text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2", command=lambda:exiiit(window))
-    
+    p1=tk.Button(menu,text="Nowa gra", height=HEIGHT, width=WIDTH, bd=BD, background='light blue', activebackground="gold2" )
+    p2=tk.Button(menu,text="Od nowa", height=HEIGHT, width=WIDTH, bd=BD,background='light blue', activebackground="gold2")
+    p3=tk.Button(menu,text="Zapisz grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
+    p4=tk.Button(menu,text="Wczytaj grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
+    p5=tk.Button(menu,text="Rekordy", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
+    p6=tk.Button(menu,text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2", command=lambda:exiiit(window))
+    rad1=tk.Radiobutton(window, anchor='w',bg='light blue',bd=BD+5,width=20, text="Podpowiedzi włączone", activebackground="gold2",value=1,command=lambda:chng1())
+    rad2=tk.Radiobutton(window, anchor='w',bg='light blue',bd=BD+5,width=20,text="Podpowiedzi wyłączone", activebackground="gold2",value=0,command=lambda:chng2())
+ 
 
     for k in range(9):
-        labe.append(tk.LabelFrame(window,width=70,height=70, bg='dark blue'))
+        labe.append(tk.LabelFrame(window,width=74,height=70, bg='dark blue', bd=BD+2))
         labe[k].grid_rowconfigure(0, weight=1)
         labe[k].grid_columnconfigure(0, weight=1)    
         labe[k].grid_propagate(False)
-        labe[k].place(x=275+k*70,y=660)
+        labe[k].place(x=277+k*69,y=660)
         obj=(tk.Button(labe[k], activeforeground='dark blue', text=k+1,font=('Helvetica',FONT_SIZE), background="light blue",activebackground="gold2"))
         obj.configure(command=lambda btn=obj:fn2(btn))
         btns.append(obj)
@@ -310,6 +356,9 @@ def main():
     p4.grid(row=4, column=1)
     p5.grid(row=5, column=1)
     p6.grid(row=6, column=1)
+    ##
+    rad1.place(x=25, y=400)
+    rad2.place(x=25, y=435)
 
     window.mainloop()
  
