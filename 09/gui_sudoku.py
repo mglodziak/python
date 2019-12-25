@@ -8,6 +8,7 @@ BD=3
 FONT_SIZE=18
 no_to_remove=30
 LST=None
+level=30
 
 global podpowiedzi
 podpowiedzi=0
@@ -26,6 +27,7 @@ yes_or_not={}
 
 labe=[]
 btns=[]
+removed=[]
 #myFont = font.Font(size=30)
 
 
@@ -177,6 +179,8 @@ def make_sudoku():
    
 
 def remove_some_data(n):
+    global removed
+   # removed=[]
     for j in range(n):
         index=[i for i in range(10,100) if i%10!=0]
         ix=random.choice(index)
@@ -184,7 +188,10 @@ def remove_some_data(n):
             remove_some_data(1)
          
         dane[ix]=' '
+        removed.append(ix)
         yes_or_not[ix]=1
+
+    print(removed)
      
 
 def usun():
@@ -192,6 +199,12 @@ def usun():
         if yes_or_not[int(last_clicked)]==1:
             dane[int(last_clicked)]=' ' 
             buttons[int(last_clicked)].configure(text=' ')
+            index=[i for i in range(10,100) if i%10!=0]
+            for j in index:
+                buttons[j].configure(background="light blue")
+            buttons[int(last_clicked)].configure(background="chartreuse3")
+    
+
     except:
         pass
 
@@ -210,36 +223,121 @@ def exiiit(wnd):
     win.title("Zakończ")
     win.geometry("450x300+400+300")
     anuluj=tk.Button(win, text="Anuluj", height=HEIGHT, width=WIDTH,bd=BD,\
-                     command=lambda:win.destroy(),background="red", activebackground="yellow")
+                     command=lambda:win.destroy(),background="light blue", activebackground="yellow")
     ok=tk.Button(win, text="Zakończ", height=HEIGHT, width=WIDTH,bd=BD,\
-                     command=lambda:wnd.destroy(), background="green", activebackground="yellow")
-    tk.Label(win, text="Zakończyć? Wszelkie niezapisany zmiany zostaną utracone.").place(x=30,y=50)
+                     command=lambda:wnd.destroy(), background="light blue", activebackground="yellow")
+    tk.Label(win, text="Zakończyć? Bieżąca gra zostanie utracona.").place(x=30,y=50)
     ok.place(x=80, y=150)
     anuluj.place(x=250, y=150)
     #win.destroy()
-    
-def chng1():
-    global podpowiedzi
-    podpowiedzi=1
-    index=[i for i in range(10,100) if i%10!=0]
-    global LST
-    for j in index:
-        buttons[j].configure(background="light blue")
-        if dane[j]==str(dane[int(last_clicked)]) and dane[j]!=' ':
-            buttons[j].configure(background="steel blue")
-            LST=str(dane[int(last_clicked)])
-            ##brakuje zielonego
-    buttons[int(last_clicked)].configure(background="chartreuse3")
-            
 
-def chng2():
-    global podpowiedzi
-    podpowiedzi=0
+def odnowa():
+
+    win=tk.Toplevel()
+    win.title("Rozpocząć od nowa?")
+    win.geometry("450x300+400+300")
+    anuluj=tk.Button(win, text="Nie", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:win.destroy(),background="light blue", activebackground="yellow")
+    ok=tk.Button(win, text="Tak", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:once_again(win), background="light blue", activebackground="yellow")
+    tk.Label(win, text="Rozpocząć od nowa? Bieżąca gra zostanie utracona.").place(x=30,y=50)
+    ok.place(x=80, y=150)
+    anuluj.place(x=250, y=150)
+    #dodać funkcję startującą od zera
+
+def once_again(win):
+    global removed
     index=[i for i in range(10,100) if i%10!=0]
-    for j in index:
-        buttons[j].configure(background="light blue")
-    buttons[int(last_clicked)].configure(background="chartreuse3")
+    for i in index:
+        dane[i]=original_dane[i]
+        buttons[i].configure(text=str(dane[i]))
+    win.destroy()
+    for j in removed:
+        dane[j]=' '
+        buttons[j].configure(text=' ')
+    #removed=[]
+
     
+def nowa_gra():
+    win=tk.Toplevel()
+    win.title("Rozpocząć od nowa?")
+    win.geometry("450x300+400+300")
+    anuluj=tk.Button(win, text="Nie", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:win.destroy(),background="light blue", activebackground="yellow")
+    ok=tk.Button(win, text="Tak", height=HEIGHT, width=WIDTH,bd=BD,\
+                     command=lambda:nowa_gra_backend(win), background="light blue", activebackground="yellow")
+    tk.Label(win, text="Rozpocząć nową rozgrywkę? Bieżąca gra zostanie utracona.").place(x=30,y=50)
+    ok.place(x=80, y=150)
+    anuluj.place(x=250, y=150)
+
+def ng(n, win):
+    global level
+    if n==1:
+        level=10
+    elif n==2:
+        level=20
+    elif n==3:
+        level=30
+    elif n==4:
+        level=40
+    elif n==5:
+        level=50
+    win.destroy()
+       
+    make_sudoku()
+    index=[i for i in range(10,100) if i%10!=0]
+    global removed
+    removed=[]
+    remove_some_data(level)
+    for i in index:
+       # original_dane[i]=dane[i]
+        buttons[i].configure(text=str(dane[i]))
+    
+def nowa_gra_backend(win):
+    win.destroy()
+    global level
+
+    okno=tk.Toplevel()
+    okno.title("Wybierz poziom trudności")
+    okno.geometry("450x300+400+300")
+    t1=tk.Button(okno, command=lambda:ng(1,okno), text="Amator", height=HEIGHT, width=WIDTH,bd=BD,background="green2", activebackground="yellow")
+    t2=tk.Button(okno, command=lambda:ng(2,okno), text="Łatwy", height=HEIGHT, width=WIDTH,bd=BD, background="OliveDrab1", activebackground="yellow")
+    t3=tk.Button(okno, command=lambda:ng(3,okno), text="Średni", height=HEIGHT, width=WIDTH,bd=BD, background="light blue", activebackground="yellow")
+    t4=tk.Button(okno, command=lambda:ng(4,okno), text="Trudny", height=HEIGHT, width=WIDTH,bd=BD, background="orange", activebackground="yellow")
+    t5=tk.Button(okno, command=lambda:ng(5,okno), text="Ekspert", height=HEIGHT, width=WIDTH,bd=BD, background="red", activebackground="yellow")
+    tk.Label(okno, text="Wybierz poziom trudności").place(x=150,y=10)
+    t1.place(x=175, y=40)
+    t2.place(x=175, y=90)
+    t3.place(x=175, y=140)
+    t4.place(x=175, y=190)
+    t5.place(x=175, y=240)
+
+ 
+      
+
+def pdp():
+    global podpowiedzi
+    global last_clicked
+    if podpowiedzi==0:
+        podpowiedzi=1
+        index=[i for i in range(10,100) if i%10!=0]
+        global LST
+        for j in index:
+            buttons[j].configure(background="light blue")
+            if dane[j]==str(dane[int(last_clicked)]) and dane[j]!=' ':
+                buttons[j].configure(background="steel blue")
+                LST=str(dane[int(last_clicked)])
+                ##brakuje zielonego
+        buttons[int(last_clicked)].configure(background="chartreuse3")
+        return
+
+    elif podpowiedzi==1:
+        podpowiedzi=0
+        index=[i for i in range(10,100) if i%10!=0]
+        for j in index:
+            buttons[j].configure(background="light blue")
+        buttons[int(last_clicked)].configure(background="chartreuse3")
+        return
 
 def main():
     global podpowiedzi
@@ -262,15 +360,11 @@ def main():
         game.append(tk.LabelFrame(height=12, width=27,bg='dark blue',  padx=2, pady=2))
 
               
-    p1=tk.Button(menu,text="Nowa gra", height=HEIGHT, width=WIDTH, bd=BD, background='light blue', activebackground="gold2" )
-    p2=tk.Button(menu,text="Od nowa", height=HEIGHT, width=WIDTH, bd=BD,background='light blue', activebackground="gold2")
-    p3=tk.Button(menu,text="Zapisz grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
-    p4=tk.Button(menu,text="Wczytaj grę", height=HEIGHT, width=WIDTH, bd=BD, background='light blue',activebackground="gold2")
-    p5=tk.Button(menu,text="Rekordy", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
-    p6=tk.Button(menu,text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2", command=lambda:exiiit(window))
-    rad1=tk.Radiobutton(window, anchor='w',bg='light blue',bd=BD+5,width=20, text="Podpowiedzi włączone", activebackground="gold2",value=1,command=lambda:chng1())
-    rad2=tk.Radiobutton(window, anchor='w',bg='light blue',bd=BD+5,width=20,text="Podpowiedzi wyłączone", activebackground="gold2",value=0,command=lambda:chng2())
- 
+    p1=tk.Button(menu,text="Nowa gra", height=HEIGHT, width=WIDTH, bd=BD, background='light blue', activebackground="gold2", command=lambda:nowa_gra() )
+    p2=tk.Button(menu,text="Od nowa", height=HEIGHT, width=WIDTH, bd=BD,background='light blue', activebackground="gold2", command=lambda:odnowa())
+    p3=tk.Button(menu,text="Rekordy", state='disabled',height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2")
+    p4=tk.Button(menu,text="Wyjście", height=HEIGHT, width=WIDTH,background='light blue', bd=BD, activebackground="gold2", command=lambda:exiiit(window))
+    chck=tk.Checkbutton(window, text="Włącz podpowiedzi",bg='light blue', height=2,activebackground="gold2", command=lambda:pdp())
 
     for k in range(9):
         labe.append(tk.LabelFrame(window,width=74,height=70, bg='dark blue', bd=BD+2))
@@ -299,6 +393,15 @@ def main():
     ok_frame.place(x=20, y=571)
     obj=(tk.Button(ok_frame, activeforeground='dark blue', text='Zatwierdź',font=('Helvetica',FONT_SIZE), background="light blue",activebackground="gold2"))
     obj.configure(command=lambda btn=obj:ok())
+    obj.grid(row=0, column=0, sticky='nesw')
+
+    pdp_frame=tk.LabelFrame(window,width=125,height=70, bg='dark blue')
+    pdp_frame.grid_rowconfigure(0, weight=1)
+    pdp_frame.grid_columnconfigure(0, weight=1)
+    pdp_frame.grid_propagate(False)
+    pdp_frame.place(x=20, y=470)
+    obj=tk.Checkbutton(pdp_frame, text="Włącz \n podpowiedzi",bg='light blue', height=2,activebackground="gold2", command=lambda:pdp())
+    obj.configure(command=lambda: pdp())
     obj.grid(row=0, column=0, sticky='nesw')
     #print(btns[3])
     
@@ -354,11 +457,6 @@ def main():
     p2.grid(row=2, column=1)
     p3.grid(row=3, column=1)
     p4.grid(row=4, column=1)
-    p5.grid(row=5, column=1)
-    p6.grid(row=6, column=1)
-    ##
-    rad1.place(x=25, y=400)
-    rad2.place(x=25, y=435)
 
     window.mainloop()
  
