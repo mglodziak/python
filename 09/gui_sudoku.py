@@ -6,9 +6,9 @@ HEIGHT=2
 WIDTH=11
 BD=3
 FONT_SIZE=18
-no_to_remove=30
+
 LST=None
-level=30
+level=5
 
 global podpowiedzi
 podpowiedzi=0
@@ -44,7 +44,7 @@ def fn(btn):
         except:
             y=1
         res=str(x)+str(y)
-        print(res)
+       #print(res)
         last_clicked=res
      #   return last_clicked
         
@@ -54,7 +54,7 @@ def fn(btn):
         except:
             y=1
         res=str(x)+str(y)
-        print(res)
+       # print(res)
 
         last_clicked=res
         
@@ -172,7 +172,7 @@ def make_sudoku():
         dane[i]=str(board[j[0]][j[1]])
         original_dane[i]=str(board[j[0]][j[1]])
     
-    print(original_dane)
+   # print(original_dane)
     index=[i for i in range(10,100) if i%10!=0]
     for j in index:
         yes_or_not[j]=0
@@ -191,7 +191,7 @@ def remove_some_data(n):
         removed.append(ix)
         yes_or_not[ix]=1
 
-    print(removed)
+   # print(removed)
      
 
 def usun():
@@ -208,24 +208,60 @@ def usun():
     except:
         pass
 
+def ckeck_one_more_time():
+    indeksy=[i for i in range (11,100,10)]
+    #print(indeksy)
+    wzor=[j for j in range(1,10)]
+    for b in indeksy:
+        index=[k for k in range(b,b+9)]
+        tmp=[]
+        for j in index: 
+            tmp.append(dane[j])
+        tmp.sort()
+       # print(tmp)
+        
+        for m in range(9):
+          #  print(tmp[m], wzor[m])
+            if str(tmp[m])!=str(wzor[m]):
+               # print("bardzo źle")
+                xd=tk.Toplevel()
+                xd.title('Spróbuj jeszcze raz!')
+                xd.geometry('450x300+400+300')
+                tk.Label(xd, text="Rozwiązanie niepoprawne.").place(x=150,y=50)
+                ok=tk.Button(xd, text="OK", height=HEIGHT, width=WIDTH,bd=BD, command=lambda:xd.destroy(), background="light blue", activebackground="gold2")
+                ok.place(x=175,y=150)
+                return
+    #print("jednak dobrze")
+    return      
+          
+    
+    
 
 def ok():
     index=[i for i in range(10,100) if i%10!=0]
     for i in index:
         if dane[i]!=original_dane[i]:
-            print("źle")
-            return
+            ckeck_one_more_time()
+          #  print("źle")
+            
+           # return
        # print(original_dane[i])
-    print('dobrze')
-
+    #print('dobrze')
+    xd=tk.Toplevel()
+    xd.title('Gratulacje!')
+    xd.geometry('450x300+400+300')
+    tk.Label(xd, text="Rozwiązanie poprawne!").place(x=150,y=50)
+    ok=tk.Button(xd, text="OK", height=HEIGHT, width=WIDTH,bd=BD, command=lambda:xd.destroy(), background="light blue", activebackground="gold2")
+    ok.place(x=175,y=150)
+    
 def exiiit(wnd):
     win=tk.Toplevel()
     win.title("Zakończ")
     win.geometry("450x300+400+300")
     anuluj=tk.Button(win, text="Anuluj", height=HEIGHT, width=WIDTH,bd=BD,\
-                     command=lambda:win.destroy(),background="light blue", activebackground="yellow")
+                     command=lambda:win.destroy(),background="light blue", activebackground="gold2")
     ok=tk.Button(win, text="Zakończ", height=HEIGHT, width=WIDTH,bd=BD,\
-                     command=lambda:wnd.destroy(), background="light blue", activebackground="yellow")
+                     command=lambda:wnd.destroy(), background="light blue", activebackground="gold2")
     tk.Label(win, text="Zakończyć? Bieżąca gra zostanie utracona.").place(x=30,y=50)
     ok.place(x=80, y=150)
     anuluj.place(x=250, y=150)
@@ -343,10 +379,10 @@ def main():
     global podpowiedzi
     make_sudoku()
 
-    remove_some_data(no_to_remove)
+    remove_some_data(level)
     
     dane_start_gry=dane
-    print(yes_or_not)
+    #print(yes_or_not)
    # print(dane)
     window=tk.Tk()
     window.title("Sudoku by M")
