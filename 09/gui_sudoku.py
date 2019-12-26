@@ -8,17 +8,10 @@ BD=3
 FONT_SIZE=18
 
 LST=None
-level=5
+level=30
 
 global podpowiedzi
 podpowiedzi=0
-
-
-
-
-
-
-#fnt=tkFont.Font(size=25)
 
 dane={}
 original_dane={}
@@ -28,9 +21,6 @@ yes_or_not={}
 labe=[]
 btns=[]
 removed=[]
-#myFont = font.Font(size=30)
-
-
 
 def fn(btn):
     global podpowiedzi
@@ -44,9 +34,7 @@ def fn(btn):
         except:
             y=1
         res=str(x)+str(y)
-       #print(res)
         last_clicked=res
-     #   return last_clicked
         
     else:    
         try:
@@ -57,12 +45,10 @@ def fn(btn):
        # print(res)
 
         last_clicked=res
-        
-    #    return last_clicked
-    #print(buttons[int(last_clicked)])
+
     change_color(dane[int(last_clicked)], last_clicked)   
     return last_clicked
-        #btn.configure(text='xd')
+    
        
 def fn2(btn):
     global podpowiedzi
@@ -72,13 +58,10 @@ def fn2(btn):
     res=str(x)+str(y)
     res=int(res)-9
     global last_clicked
-    #print(last_clicked)
     if yes_or_not[int(last_clicked)]==1:
         dane[int(last_clicked)]=str(res)
         buttons[int(last_clicked)].configure(text=res)
-        print(podpowiedzi)
         change_color(dane[int(last_clicked)],last_clicked)
-    #print(dane)
 
 
 def change_color(n, lc):
@@ -91,7 +74,6 @@ def change_color(n, lc):
             if dane[j]==str(n) and dane[j]!=' ':
                 buttons[j].configure(background="steel blue")
                 LST=n
-               # print(LST)
             elif dane[j]==' ':
                 index2=[i for i in range(10,100) if i%10!=0]
                 for k in index2:
@@ -168,11 +150,9 @@ def make_sudoku():
             ix.append(x)
             
     for i, j in zip(index, ix):
-        #print(i, j)
         dane[i]=str(board[j[0]][j[1]])
         original_dane[i]=str(board[j[0]][j[1]])
     
-   # print(original_dane)
     index=[i for i in range(10,100) if i%10!=0]
     for j in index:
         yes_or_not[j]=0
@@ -180,7 +160,6 @@ def make_sudoku():
 
 def remove_some_data(n):
     global removed
-   # removed=[]
     for j in range(n):
         index=[i for i in range(10,100) if i%10!=0]
         ix=random.choice(index)
@@ -190,8 +169,6 @@ def remove_some_data(n):
         dane[ix]=' '
         removed.append(ix)
         yes_or_not[ix]=1
-
-   # print(removed)
      
 
 def usun():
@@ -204,13 +181,27 @@ def usun():
                 buttons[j].configure(background="light blue")
             buttons[int(last_clicked)].configure(background="chartreuse3")
     
-
     except:
         pass
 
-def ckeck_one_more_time():
+def fnct():
+    xd=tk.Toplevel()
+    xd.title('Spróbuj jeszcze raz!')
+    xd.geometry('450x300+400+300')
+    tk.Label(xd, text="Rozwiązanie niepoprawne.").place(x=150,y=50)
+    ok=tk.Button(xd, text="OK", height=HEIGHT, width=WIDTH,bd=BD, command=lambda:xd.destroy(), background="light blue", activebackground="gold2")
+    ok.place(x=175,y=150)
+
+def fnct_good():
+    xd=tk.Toplevel()
+    xd.title('Gratulacje!')
+    xd.geometry('450x300+400+300')
+    tk.Label(xd, text="Rozwiązanie poprawne.").place(x=150,y=50)
+    ok=tk.Button(xd, text="OK", height=HEIGHT, width=WIDTH,bd=BD, command=lambda:xd.destroy(), background="light blue", activebackground="gold2")
+    ok.place(x=175,y=150)
+    
+def ckeck_one_more_time(): #dziala sprawdzanie w kwadratach
     indeksy=[i for i in range (11,100,10)]
-    #print(indeksy)
     wzor=[j for j in range(1,10)]
     for b in indeksy:
         index=[k for k in range(b,b+9)]
@@ -218,21 +209,73 @@ def ckeck_one_more_time():
         for j in index: 
             tmp.append(dane[j])
         tmp.sort()
-       # print(tmp)
-        
+    
         for m in range(9):
           #  print(tmp[m], wzor[m])
             if str(tmp[m])!=str(wzor[m]):
-               # print("bardzo źle")
-                xd=tk.Toplevel()
-                xd.title('Spróbuj jeszcze raz!')
-                xd.geometry('450x300+400+300')
-                tk.Label(xd, text="Rozwiązanie niepoprawne.").place(x=150,y=50)
-                ok=tk.Button(xd, text="OK", height=HEIGHT, width=WIDTH,bd=BD, command=lambda:xd.destroy(), background="light blue", activebackground="gold2")
-                ok.place(x=175,y=150)
+                fnct()
                 return
-    #print("jednak dobrze")
-    return      
+
+    fr=[1,2,3]
+    sr=[4,5,6]
+    tr=[7,8,9]
+    wzor=[j for j in range(1,10)]
+
+    tab=[]
+    tab.append(fr)
+    tab.append(sr)
+    tab.append(tr)
+
+    for l in range(3):
+        for k in range(3):
+            tmp=[]
+            for i in range(3):
+                for j in range(3):
+                    x=str(tab[l][i])
+                    y=str(tab[k][j])
+                    z=x+y
+                    tmp.append(int(z))
+            tmp.sort()
+            tmp_data=[]
+            for q in tmp:
+                tmp_data.append(dane[q])
+            tmp_data.sort()
+            for w in range(9):
+                if str(tmp_data[w])!= str(wzor[w]):
+                    fnct()
+                    return
+## wiersze
+    fr=[1,4,7]
+    sr=[2,5,8]
+    tr=[3,6,9]
+    wzor=[j for j in range(1,10)]
+
+    tab=[]
+    tab.append(fr)
+    tab.append(sr)
+    tab.append(tr)
+    
+    for l in range(3):
+        for k in range(3):
+            tmp=[]
+            for i in range(3):
+                for j in range(3):
+                    x=str(tab[l][i])
+                    y=str(tab[k][j])
+                    z=x+y
+                    tmp.append(int(z))
+            tmp.sort()
+            tmp_data=[]
+            for q in tmp:
+                tmp_data.append(dane[q])
+            tmp_data.sort()
+            for w in range(9):
+                if str(tmp_data[w])!= str(wzor[w]):
+                    fnct()
+                    return
+    
+    fnct_good()
+    return
           
     
     
@@ -242,11 +285,8 @@ def ok():
     for i in index:
         if dane[i]!=original_dane[i]:
             ckeck_one_more_time()
-          #  print("źle")
-            
-           # return
-       # print(original_dane[i])
-    #print('dobrze')
+            return
+
     xd=tk.Toplevel()
     xd.title('Gratulacje!')
     xd.geometry('450x300+400+300')
@@ -265,7 +305,6 @@ def exiiit(wnd):
     tk.Label(win, text="Zakończyć? Bieżąca gra zostanie utracona.").place(x=30,y=50)
     ok.place(x=80, y=150)
     anuluj.place(x=250, y=150)
-    #win.destroy()
 
 def odnowa():
 
@@ -276,10 +315,9 @@ def odnowa():
                      command=lambda:win.destroy(),background="light blue", activebackground="yellow")
     ok=tk.Button(win, text="Tak", height=HEIGHT, width=WIDTH,bd=BD,\
                      command=lambda:once_again(win), background="light blue", activebackground="yellow")
-    tk.Label(win, text="Rozpocząć od nowa? Bieżąca gra zostanie utracona.").place(x=30,y=50)
+    tk.Label(win, text="Rozpocząć od nowa? Bieżąca gra zostanie utracona.").place(x=60,y=50)
     ok.place(x=80, y=150)
     anuluj.place(x=250, y=150)
-    #dodać funkcję startującą od zera
 
 def once_again(win):
     global removed
@@ -291,8 +329,6 @@ def once_again(win):
     for j in removed:
         dane[j]=' '
         buttons[j].configure(text=' ')
-    #removed=[]
-
     
 def nowa_gra():
     win=tk.Toplevel()
@@ -326,8 +362,8 @@ def ng(n, win):
     removed=[]
     remove_some_data(level)
     for i in index:
-       # original_dane[i]=dane[i]
         buttons[i].configure(text=str(dane[i]))
+        buttons[i].configure(background="light blue")
     
 def nowa_gra_backend(win):
     win.destroy()
@@ -363,7 +399,6 @@ def pdp():
             if dane[j]==str(dane[int(last_clicked)]) and dane[j]!=' ':
                 buttons[j].configure(background="steel blue")
                 LST=str(dane[int(last_clicked)])
-                ##brakuje zielonego
         buttons[int(last_clicked)].configure(background="chartreuse3")
         return
 
@@ -382,8 +417,6 @@ def main():
     remove_some_data(level)
     
     dane_start_gry=dane
-    #print(yes_or_not)
-   # print(dane)
     window=tk.Tk()
     window.title("Sudoku by M")
     window.geometry("1024x768+0+0")
@@ -439,7 +472,6 @@ def main():
     obj=tk.Checkbutton(pdp_frame, text="Włącz \n podpowiedzi",bg='light blue', height=2,activebackground="gold2", command=lambda:pdp())
     obj.configure(command=lambda: pdp())
     obj.grid(row=0, column=0, sticky='nesw')
-    #print(btns[3])
     
     for i in ix:
         if i%3==0:
@@ -454,7 +486,6 @@ def main():
     global buttons
     buttons={}
     
-    #print(index)
     pixel = tk.PhotoImage(width=1, height=1)
     for i in index:
         quad=i//10-1
@@ -462,7 +493,7 @@ def main():
             txt=dane[i][0]
         except:
             txt='xd'
-       # print(txt)
+
         obj=tk.Button(game[quad], text=txt, compound='c',font=('Helvetica',FONT_SIZE),image=pixel,width=40, height=50, background="light blue",activebackground="gold2")
         obj.configure(command=lambda btn=obj:fn(btn))
         buttons[i]=obj
