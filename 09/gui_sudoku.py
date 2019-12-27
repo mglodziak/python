@@ -1,6 +1,7 @@
 import tkinter as tk
 import random
 import tkinter.font as font
+import time
 
 HEIGHT=2
 WIDTH=11
@@ -46,18 +47,19 @@ def fn(btn):
 
         last_clicked=res
 
-    change_color(dane[int(last_clicked)], last_clicked)   
+    change_color(dane[int(last_clicked)], last_clicked)
+  #  print(dane)
     return last_clicked
     
        
 def fn2(btn):
     global podpowiedzi
+    global last_clicked
     st=str(btn)
     x=st[12]
     y=st[13]
     res=str(x)+str(y)
     res=int(res)-9
-    global last_clicked
     if yes_or_not[int(last_clicked)]==1:
         dane[int(last_clicked)]=str(res)
         buttons[int(last_clicked)].configure(text=res)
@@ -66,20 +68,33 @@ def fn2(btn):
 
 def change_color(n, lc):
     global podpowiedzi
-    index=[i for i in range(10,100) if i%10!=0]
     global LST
+    #global last_clicked
+    print(dane)
+    index=[i for i in range(10,100) if i%10!=0]
     if podpowiedzi==1:
         for j in index:
+            
             buttons[j].configure(background="light blue")
             if dane[j]==str(n) and dane[j]!=' ':
                 buttons[j].configure(background="steel blue")
                 LST=n
-            elif dane[j]==' ':
-                index2=[i for i in range(10,100) if i%10!=0]
-                for k in index2:
-                    buttons[k].configure(background="light blue")
-                    if dane[k]==str(LST):
-                       buttons[k].configure(background="steel blue")
+
+        for k in index:
+            buttons[k].configure(background="light blue")
+            if dane[k]==str(LST):
+                print(str(LST))
+                buttons[k].configure(background="steel blue")
+                
+##            elif dane[j]==' ':
+##                index2=[i for i in range(10,100) if i%10!=0]
+##                for k in index2:
+##                    buttons[k].configure(background="light blue")
+##                    if dane[k]==str(LST):
+##                        #print(str(LST))
+##                        buttons[k].configure(background="pink")
+##                        #time.sleep(0.01)
+##                        #buttons[int(last_clicked)].configure(bg='black')
 
     else:
         for j in index:
@@ -172,16 +187,19 @@ def remove_some_data(n):
      
 
 def usun():
+    global last_clicked
     try:
         if yes_or_not[int(last_clicked)]==1:
             dane[int(last_clicked)]=' ' 
             buttons[int(last_clicked)].configure(text=' ')
             index=[i for i in range(10,100) if i%10!=0]
-            for j in index:
-                buttons[j].configure(background="light blue")
-            buttons[int(last_clicked)].configure(background="chartreuse3")
-    
+           # for j in index:
+               # buttons[j].configure(background="light blue")
+          #  buttons[int(last_clicked)].configure(background="chartreuse3")
+            change_color(dane[int(last_clicked)],last_clicked)
+            
     except:
+        #print(dupa)
         pass
 
 def fnct():
@@ -344,6 +362,8 @@ def nowa_gra():
 
 def ng(n, win):
     global level
+    global LST
+    LST=None
     if n==1:
         level=10
     elif n==2:
@@ -390,25 +410,28 @@ def nowa_gra_backend(win):
 def pdp():
     global podpowiedzi
     global last_clicked
-    if podpowiedzi==0:
-        podpowiedzi=1
-        index=[i for i in range(10,100) if i%10!=0]
-        global LST
-        for j in index:
-            buttons[j].configure(background="light blue")
-            if dane[j]==str(dane[int(last_clicked)]) and dane[j]!=' ':
-                buttons[j].configure(background="steel blue")
-                LST=str(dane[int(last_clicked)])
-        buttons[int(last_clicked)].configure(background="chartreuse3")
-        return
+    try:
+        if podpowiedzi==0:
+            podpowiedzi=1
+            index=[i for i in range(10,100) if i%10!=0]
+            global LST
+            for j in index:
+                buttons[j].configure(background="light blue")
+                if dane[j]==str(dane[int(last_clicked)]) and dane[j]!=' ':
+                    buttons[j].configure(background="steel blue")
+                    LST=str(dane[int(last_clicked)])
+            buttons[int(last_clicked)].configure(background="chartreuse3")
+            return
 
-    elif podpowiedzi==1:
-        podpowiedzi=0
-        index=[i for i in range(10,100) if i%10!=0]
-        for j in index:
-            buttons[j].configure(background="light blue")
-        buttons[int(last_clicked)].configure(background="chartreuse3")
-        return
+        elif podpowiedzi==1:
+            podpowiedzi=0
+            index=[i for i in range(10,100) if i%10!=0]
+            for j in index:
+                buttons[j].configure(background="light blue")
+            buttons[int(last_clicked)].configure(background="chartreuse3")
+            return
+    except:
+        print('dupa')
 
 def main():
     global podpowiedzi
@@ -460,7 +483,7 @@ def main():
     ok_frame.grid_columnconfigure(0, weight=1)
     ok_frame.grid_propagate(False)
     ok_frame.place(x=20, y=571)
-    obj=(tk.Button(ok_frame, activeforeground='dark blue', text='Zatwierdź',font=('Helvetica',FONT_SIZE), background="light blue",activebackground="gold2"))
+    obj=(tk.Button(ok_frame, activeforeground='dark blue', text='Sprawdź',font=('Helvetica',FONT_SIZE), background="light blue",activebackground="gold2"))
     obj.configure(command=lambda btn=obj:ok())
     obj.grid(row=0, column=0, sticky='nesw')
 
